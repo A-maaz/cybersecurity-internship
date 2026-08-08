@@ -1,4 +1,9 @@
 # Cybersecurity Lab Setup — Task 1
+
+<p align="center">
+  <img src="screenshots/banner.png" width="100%">
+</p>
+
 ![Cybersecurity](https://img.shields.io/badge/Cybersecurity-Lab-blue?style=for-the-badge)
 ![Kali Linux](https://img.shields.io/badge/Kali%20Linux-2026-557C94?style=for-the-badge&logo=kalilinux&logoColor=white)
 ![VirtualBox](https://img.shields.io/badge/VirtualBox-Lab-183A61?style=for-the-badge&logo=virtualbox&logoColor=white)
