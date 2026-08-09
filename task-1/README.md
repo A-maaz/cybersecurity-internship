@@ -47,14 +47,23 @@ The lab provides an isolated environment for learning and practicing cybersecuri
 1. Install VirtualBox
 
  - *Installed Oracle VirtualBox on the host machine.*
+<p align="center">
+  <img src="screenshots/virtualbox.png" width="900">
+</p>
 
 2. Download Kali Linux
 
  - *Downloaded the Kali Linux 2026 ISO for installation as the attacker machine.*
+<p align="center">
+  <img src="screenshots/kali-iso.png">
+</p>
 
 3. Create Kali Linux VM
 
  - *Created a new Kali Linux virtual machine in VirtualBox and configured:*
+<p align="center">
+  <img src="screenshots/kali-vm-settings.png" width="900">
+</p>
 
  ```- RAM
   - CPU
@@ -68,6 +77,10 @@ The lab provides an isolated environment for learning and practicing cybersecuri
  - *Started the VM and completed the Kali Linux installation.*
 
  - *During installation, I configured:*
+<p align="center">
+  <img src="screenshots/kali-desktop.png" width="900">
+</p>
+
 ```
   - Username
   - Password
@@ -83,6 +96,11 @@ The lab provides an isolated environment for learning and practicing cybersecuri
 6. Configure Metasploitable 2
 
 *Imported Metasploitable 2 into VirtualBox and configured its:*
+
+<p align="center">
+  <img src="screenshots/metasploitable-settings.png" width="900">
+</p>
+
 ```
 RAM
 CPU
@@ -92,6 +110,9 @@ Network adapter
 7. Configure Lab Network
 
 *Configured both virtual machines to use the same private/host-only network.*
+<p align="center">
+  <img src="screenshots/metasploitable.png" width="900">
+</p>
 
 ```
 Kali Linux
@@ -109,7 +130,6 @@ Checked the IP address of Kali Linux:
 
 >ip addr
 
-
 Checked the IP address of Metasploitable 2:
 
 >ifconfig
@@ -118,6 +138,10 @@ Checked the IP address of Metasploitable 2:
 Then tested connectivity from Kali:
 
 >ping
+
+<p align="center">
+  <img src="screenshots/connectivity.png" width="900">
+</p>
 
 ---
 
