@@ -1,3 +1,11 @@
+<p align="center">
+  <img src="https://img.shields.io/badge/Kali%20Linux-557C94?style=flat-square&logo=kalilinux&logoColor=white">
+  <img src="https://img.shields.io/badge/VirtualBox-183A61?style=flat-square&logo=virtualbox&logoColor=white">
+  <img src="https://img.shields.io/badge/Linux-FCC624?style=flat-square&logo=linux&logoColor=black">
+  <img src="https://img.shields.io/badge/Networking-0078D4?style=flat-square">
+  <img src="https://img.shields.io/badge/Cybersecurity-00A86B?style=flat-square">
+</p>
+
 # 🛡️ Ultimate Kali Linux & Essential Linux Commands Cheat Sheet
 
 A comprehensive, 150-command reference guide formatted for GitHub repositories (`README.md`). It covers foundational Linux file management, system administration, networking, and advanced penetration testing workflows.
