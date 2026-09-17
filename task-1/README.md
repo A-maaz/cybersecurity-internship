@@ -1,4 +1,4 @@
-# Cybersecurity Lab Setup — Task 1
+# 🔐 Cybersecurity Internship — Task 1
 
 <p align="center">
   <img src="screenshots/banner.png" width="100%">
