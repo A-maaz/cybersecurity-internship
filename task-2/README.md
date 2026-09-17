@@ -1,4 +1,13 @@
 # 🔐 Cybersecurity Internship — Task 2
+<p align="center">
+  <img src="screenshots/banner.png" width="100%">
+</p>
+
+![Nmap](https://img.shields.io/badge/Nmap-Network%20Scanning-0078D4?style=for-the-badge)
+![OpenVAS](https://img.shields.io/badge/OpenVAS-Vulnerability%20Scanning-4CAF50?style=for-the-badge)
+![Kali Linux](https://img.shields.io/badge/Kali%20Linux-Penetration%20Testing-557C94?style=for-the-badge)
+![Metasploitable 2](https://img.shields.io/badge/Metasploitable%202-Lab%20Environment-8B0000?style=for-the-badge)
+
 Network Security Scanning, Vulnerability Assessment & Traffic Analysis
 
 ## Internship Task: Task 2
