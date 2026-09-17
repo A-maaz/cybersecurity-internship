@@ -1,24 +1,24 @@
-🔐 Cybersecurity Internship — Task 2
+# 🔐 Cybersecurity Internship — Task 2
 Network Security Scanning, Vulnerability Assessment & Traffic Analysis
 
-Internship Task: Task 2
-Focus: Reconnaissance, Network Scanning, Vulnerability Assessment & Network Traffic Analysis
-Target: Metasploitable 2
-Analysis Machine: Kali Linux
-Tools: Nmap · OpenVAS/GVM · Wireshark
+## Internship Task: Task 2
+- Focus: Reconnaissance, Network Scanning, Vulnerability Assessment & Network Traffic Analysis
+- Target: Metasploitable 2
+- Analysis Machine: Kali Linux
+- Tools: Nmap · OpenVAS/GVM · Wireshark
 
-📌 Overview
+## Overview
 This project was completed as part of my cybersecurity internship and focuses on practical network security assessment and traffic analysis.
 The assessment was performed in an isolated virtual laboratory environment using Kali Linux as the security-analysis machine and Metasploitable 2 as the intentionally vulnerable target.
 The task was divided into three major activities:
 
-🔎 Network Reconnaissance & Scanning using Nmap
-🛡️ Vulnerability Assessment using OpenVAS/GVM
-📡 Network Traffic Analysis using Wireshark
+- Network Reconnaissance & Scanning using Nmap
+- Vulnerability Assessment using OpenVAS/GVM
+- Network Traffic Analysis using Wireshark
 
 The objective was to identify exposed network services, assess potential vulnerabilities, and analyze how different network protocols communicate.
 
-🎯 Objectives
+## Objectives
 The primary objectives of this task were:
 * Perform reconnaissance against a controlled laboratory target.
 * Identify open TCP ports and running services.
@@ -31,7 +31,7 @@ The primary objectives of this task were:
 * Document security observations and potential mitigations.
 * Develop practical skills in network security assessment.
 
-🧪 Lab Environment
+## Lab Environment
 | Component | Details |
 | :--- | :--- |
 | Analysis Machine | Kali Linux |
@@ -89,7 +89,7 @@ Task-2-Network-Security-Scanning/
     └── wireshark/
 ```
 
-🔎 1. Nmap — Network Reconnaissance & Scanning
+### 1. Nmap — Network Reconnaissance & Scanning
 1.1 Objective
 Nmap was used to perform network reconnaissance against the Metasploitable 2 target to identify open ports, running services, versions, OS information, and potential attack surfaces.
 
@@ -145,7 +145,7 @@ Nmap identified the target operating system as approximately:
 
 ---
 
-🛡️ 2. OpenVAS/GVM — Vulnerability Assessment
+### 2. OpenVAS/GVM — Vulnerability Assessment
 2.1 Objective
 OpenVAS/GVM was used to perform an automated vulnerability assessment to uncover known weaknesses associated with the software stack running on Metasploitable 2.
 
@@ -206,7 +206,7 @@ Total Vulnerabilities: **85**
 
 ---
 
-📡 3. Wireshark — Network Traffic Analysis
+### 3. Wireshark — Network Traffic Analysis
 3.1 Objective
 Wireshark was utilized to intercept and dissect protocol interactions between Kali Linux and Metasploitable 2 across ICMP, TCP, HTTP, FTP, and DNS.
 
@@ -248,7 +248,7 @@ Wireshark was utilized to intercept and dissect protocol interactions between Ka
 
 ---
 
-📊 4. Overall Findings
+### 4. Overall Findings
 
 | Tool | Purpose | Key Result |
 | --- | --- | --- |
@@ -258,13 +258,13 @@ Wireshark was utilized to intercept and dissect protocol interactions between Ka
 
 ---
 
-🔍 5. Security Observations
+### 5. Security Observations
 
 * **Exposed Services:** Unnecessary network services expand the total attack surface.
 * **Vulnerable Services:** Obsolete daemons contain public exploits leading to remote code execution.
 * **Unencrypted Protocols:** Legacy protocols lack transport-layer encryption, risking credential exposure.
 
-🛠️ 6. Recommended Security Improvements
+### 6. Recommended Security Improvements
 
 * Disable unnecessary network services and close unused ports.
 * Establish regular patching schedules for OS and applications.
@@ -272,21 +272,21 @@ Wireshark was utilized to intercept and dissect protocol interactions between Ka
 * Replace unsecured file transfers (FTP/Telnet) with SFTP and SSH.
 * Implement strict host and network firewall rules.
 
-📁 7. Reports & Evidence
+### 7. Reports & Evidence
 
 * Nmap Report: `Nmap/Nmap_Report.pdf`
 * OpenVAS Report: `OpenVAS/OpenVAS_Report.pdf`
 * Wireshark Report: `Wireshark/Wireshark_Traffic_Analysis_Report.pdf`
 
-🎥 8. Demonstration Video
+### 8. Demonstration Video
 
 * **Video Link:** `[INSERT VIDEO LINK HERE]`
 
-📸 9. Screenshots
+### 9. Screenshots
 
 * Screenshots are located in the respective `Screenshots/` directories for Nmap, OpenVAS, and Wireshark.
 
-🧠 10. Learning Outcomes
+### 10. Learning Outcomes
 Gained practical proficiency in network scanning, service enumeration, vulnerability scanning via OpenVAS, packet inspection using Wireshark filters, and technical documentation.
 
 ⚠️ Disclaimer
@@ -300,7 +300,3 @@ Cybersecurity Intern / Student
 GitHub: https://github.com/A-maaz
 
 LinkedIn: [YOUR LINKEDIN PROFILE]
-
-```
-
-```
