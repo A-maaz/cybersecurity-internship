@@ -199,7 +199,9 @@ Total Vulnerabilities: **85**
 
 2.6 OpenVAS Evidence
 *OpenVAS Scan Results*
-`[INSERT OPENVAS SCREENSHOT HERE]`
+<p align="center">
+  <img src="screenshots/openVAS-Result.png" width="100%">
+</p>
 *Figure 2: OpenVAS/GVM vulnerability assessment results.*
 
 📄 OpenVAS Report: `OpenVAS/OpenVAS_Report.pdf`
