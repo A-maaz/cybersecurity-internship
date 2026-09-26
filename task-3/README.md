@@ -26,7 +26,7 @@
 
 <div align="center">
 
-<img src="assets/task-3-banner.png" width="100%" alt="Task 3 Web Application Security Banner">
+<img src="screenshots/banner.jpg" width="100%" alt="Task 3 Web Application Security Banner">
 
 </div>
 
@@ -175,7 +175,7 @@ Unexpected / Unauthorized Results
 
 <div align="center">
 
-<img src="SQL-Injection/screenshots/sql-injection.png"
+<img src="screenshots/ss4.png"
   width="850"
   alt="SQL Injection Demonstration">
 
@@ -229,7 +229,10 @@ Controlled proof-of-concept:
 
 <div align="center">
 
-<img src="XSS/screenshots/reflected-xss.png"
+<img src="screenshots/ss5.png"
+  width="850"
+  alt="Reflected XSS">
+  <img src="screenshots/ss6.png"
   width="850"
   alt="Reflected XSS">
 
@@ -263,7 +266,7 @@ Controlled payload:
 
 <div align="center">
 
-<img src="XSS/screenshots/stored-xss.png"
+<img src="screenshots/ss7.png"
   width="850"
   alt="Stored XSS">
 
@@ -341,9 +344,12 @@ Unauthorized Action
 
 <div align="center">
 
-<img src="CSRF/screenshots/csrf-attack.png"
+<img src="screenshots/ss8.png"
   width="850"
   alt="CSRF Demonstration">
+<img src="screenshots/ss9.png"
+  width="850"
+  alt="CSRF Demonstration">  
 
 </div>
 
@@ -490,9 +496,12 @@ username=admin&password=password
 
 <div align="center">
 
-<img src="Burp-Suite/screenshots/burp-intercept.png"
+<img src="screenshots/ss8.png"
   width="850"
   alt="Burp Suite Request Interception">
+  <img src="screenshots/ss9.png"
+  width="850"
+  alt="CSRF Demonstration"> 
 
 </div>
 
@@ -532,7 +541,7 @@ dvwa
 
 <div align="center">
 
-<img src="Burp-Suite/screenshots/burp-intruder.png"
+<img src="screenshots/ss9.png"
   width="850"
   alt="Burp Suite Intruder">
 
