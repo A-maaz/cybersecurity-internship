@@ -573,15 +573,15 @@ Security headers were analyzed to understand browser-side security controls.
 
 ## 🔎 SecurityHeaders Analysis
 
-A test site was analyzed using SecurityHeaders.com.
+Security headers not listed in for DVWA
 
 ### Evidence
 
 <div align="center">
 
-<img src="Security-Headers/screenshots/securityheaders.png"
+<img src="screenshots/ss13.png"
   width="850"
-  alt="Security Headers Analysis">
+  alt="Local File Inclusion">
 
 </div>
 
