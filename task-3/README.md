@@ -412,7 +412,13 @@ Server Response
 
 <div align="center">
 
-<img src="File-Inclusion/screenshots/lfi.png"
+<img src="screenshots/ss12.png"
+  width="850"
+  alt="Local File Inclusion">
+<img src="screenshots/ss10.png"
+  width="850"
+  alt="Local File Inclusion">
+<img src="screenshots/ss11.png"
   width="850"
   alt="Local File Inclusion">
 
