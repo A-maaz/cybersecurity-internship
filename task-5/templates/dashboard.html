@@ -1,0 +1,285 @@
+{% extends 'base.html' %}
+
+{% block title %}SOC Operations Dashboard — PhishAware{% endblock %}
+
+{% block content %}
+<div class="row g-4 mb-4">
+    <div class="col-12">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+            <div>
+                <div class="d-flex align-items-center gap-2 mb-1">
+                    <h1 class="h3 text-white mb-0">
+                        <i class="bi bi-speedometer2 text-info me-2"></i> SOC Operations &amp; Telemetry Dashboard
+                    </h1>
+                    {% if active_campaigns and active_campaigns[0].status == 'ACTIVE' %}
+                        <span class="badge badge-soc-active">SIMULATION: ACTIVE</span>
+                    {% elif active_campaigns and active_campaigns[0].status == 'CONTAINED' %}
+                        <span class="badge badge-soc-contained">SIMULATION: CONTAINED</span>
+                    {% else %}
+                        <span class="badge badge-soc-neutral">SIMULATION: IDLE</span>
+                    {% endif %}
+                </div>
+                <p class="text-secondary small mb-0">
+                    Live telemetry, behavioral funnel analytics, and incident escalation metrics from controlled training campaigns.
+                </p>
+            </div>
+            
+            <div class="d-flex gap-2">
+                <a href="{{ url_for('dashboard.export_csv') }}" class="btn btn-sm btn-soc-outline" id="btn-export-csv">
+                    <i class="bi bi-file-earmark-arrow-down text-success me-1"></i> Export CSV Audit Log
+                </a>
+                <a href="{{ url_for('main.demo_seed') }}" class="btn btn-sm btn-soc-cyan" id="btn-dashboard-seed">
+                    <i class="bi bi-arrow-repeat me-1"></i> Re-Seed Demo Fixtures
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Primary KPI Cards Row -->
+<div class="row g-3 mb-4">
+    <div class="col-6 col-md-3 col-xl">
+        <div class="soc-card kpi-card blue">
+            <div class="kpi-title">Emails Dispatched</div>
+            <div class="kpi-value">{{ emails_sent }}</div>
+            <div class="kpi-sub">{{ total_users }} synthetic targets</div>
+        </div>
+    </div>
+    
+    <div class="col-6 col-md-3 col-xl">
+        <div class="soc-card kpi-card cyan">
+            <div class="kpi-title">Emails Opened</div>
+            <div class="kpi-value">{{ emails_opened }}</div>
+            <div class="kpi-sub">{{ open_rate }}% Open Rate</div>
+        </div>
+    </div>
+    
+    <div class="col-6 col-md-3 col-xl">
+        <div class="soc-card kpi-card crimson">
+            <div class="kpi-title">Links Clicked</div>
+            <div class="kpi-value text-danger">{{ links_clicked }}</div>
+            <div class="kpi-sub">{{ click_rate }}% Click Rate</div>
+        </div>
+    </div>
+    
+    <div class="col-6 col-md-3 col-xl">
+        <div class="soc-card kpi-card emerald">
+            <div class="kpi-title">Reports Submitted</div>
+            <div class="kpi-value text-success">{{ reports_submitted }}</div>
+            <div class="kpi-sub">{{ report_rate }}% Report Rate</div>
+        </div>
+    </div>
+    
+    <div class="col-6 col-md-3 col-xl">
+        <div class="soc-card kpi-card purple">
+            <div class="kpi-title">Training Done</div>
+            <div class="kpi-value text-info">{{ training_viewed }}</div>
+            <div class="kpi-sub">{{ training_rate }}% Completion</div>
+        </div>
+    </div>
+    
+    <div class="col-6 col-md-3 col-xl">
+        <div class="soc-card kpi-card amber">
+            <div class="kpi-title">Incidents (Active/Res)</div>
+            <div class="kpi-value text-warning">{{ incidents_active }} <span class="fs-6 text-muted">/ {{ incidents_resolved }}</span></div>
+            <div class="kpi-sub">{{ incidents_total }} Total Logged</div>
+        </div>
+    </div>
+</div>
+
+<!-- Incident Pipeline Progression Bar -->
+<div class="row g-4 mb-4">
+    <div class="col-12">
+        <div class="soc-card p-3">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                <span class="small text-muted font-monospace text-uppercase fw-semibold">
+                    <i class="bi bi-shield-shaded text-info me-1"></i> Incident Defense Lifecycle Pipeline:
+                </span>
+                
+                <div class="d-flex align-items-center gap-2 small">
+                    <span class="badge {% if incidents_total > 0 %}badge-soc-detected{% else %}badge-soc-neutral{% endif %} py-1 px-2">
+                        1. DETECTED ({{ incidents_total }})
+                    </span>
+                    <i class="bi bi-chevron-right text-muted"></i>
+                    
+                    <span class="badge {% if active_campaigns and active_campaigns[0].status == 'CONTAINED' %}badge-soc-contained{% else %}badge-soc-neutral{% endif %} py-1 px-2">
+                        2. CONTAINED
+                    </span>
+                    <i class="bi bi-chevron-right text-muted"></i>
+                    
+                    <span class="badge badge-soc-neutral py-1 px-2">
+                        3. ERADICATED
+                    </span>
+                    <i class="bi bi-chevron-right text-muted"></i>
+                    
+                    <span class="badge {% if incidents_resolved > 0 %}badge-soc-resolved{% else %}badge-soc-neutral{% endif %} py-1 px-2">
+                        4. RESOLVED ({{ incidents_resolved }})
+                    </span>
+                </div>
+                
+                <a href="{{ url_for('incident.incident_list') }}" class="btn btn-sm btn-soc-warning py-1 px-2" style="font-size: 0.78rem;">
+                    Incident Workbench <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Row -->
+<div class="row g-4 mb-4">
+    <!-- User Funnel Chart -->
+    <div class="col-lg-5">
+        <div class="soc-card h-100 p-4">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h2 class="h6 text-white mb-0">
+                    <i class="bi bi-filter text-info me-2"></i> User Interaction Funnel
+                </h2>
+                <span class="badge badge-soc-neutral">TELEMETRY</span>
+            </div>
+            <div style="height: 250px;">
+                <canvas id="funnelChart"></canvas>
+            </div>
+            <div class="mt-3 pt-2 border-top border-secondary border-opacity-50 d-flex justify-content-between small text-muted">
+                <span>Sent: <strong>{{ emails_sent }}</strong></span>
+                <span>Opened: <strong>{{ emails_opened }}</strong></span>
+                <span>Clicked: <strong class="text-danger">{{ links_clicked }}</strong></span>
+                <span>Reported: <strong class="text-success">{{ reports_submitted }}</strong></span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Simulation Outcomes Donut -->
+    <div class="col-lg-3">
+        <div class="soc-card h-100 p-4">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h2 class="h6 text-white mb-0">
+                    <i class="bi bi-pie-chart text-info me-2"></i> Outcome Distribution
+                </h2>
+                <span class="badge badge-soc-neutral">BEHAVIOR</span>
+            </div>
+            <div style="height: 220px;">
+                <canvas id="outcomesChart"></canvas>
+            </div>
+            <div class="text-center mt-2 small text-muted">
+                Reported (Vigilant) vs Clicked (Vulnerable)
+            </div>
+        </div>
+    </div>
+    
+    <!-- Department Vulnerability Breakdown -->
+    <div class="col-lg-4">
+        <div class="soc-card h-100 p-4">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h2 class="h6 text-white mb-0">
+                    <i class="bi bi-building text-info me-2"></i> Department Risk Vulnerability
+                </h2>
+                <span class="badge badge-soc-neutral">ORGANIZATION</span>
+            </div>
+            <div style="height: 250px;">
+                <canvas id="departmentChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Telemetry Event Stream Table -->
+<div class="row g-4">
+    <div class="col-12">
+        <div class="soc-card p-4">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+                <h2 class="h6 text-white mb-0">
+                    <i class="bi bi-list-check text-info me-2"></i> Real-Time Telemetry Event Log
+                </h2>
+                <div class="d-flex align-items-center gap-2">
+                    <input type="text" id="eventLogFilter" class="form-control form-control-sm soc-input" 
+                           placeholder="Filter events or users..." style="width: 220px;">
+                    <span class="badge badge-soc-neutral">{{ recent_events|length }} Recent Events</span>
+                </div>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="table soc-table align-middle">
+                    <thead>
+                        <tr>
+                            <th>Time (UTC)</th>
+                            <th>Event Type</th>
+                            <th>Target User</th>
+                            <th>Source</th>
+                            <th>Status</th>
+                            <th>Telemetry Details</th>
+                        </tr>
+                    </thead>
+                    <tbody id="eventsTableBody">
+                        {% for e in recent_events %}
+                            <tr>
+                                <td class="font-monospace small text-muted">
+                                    {{ e.timestamp.strftime('%H:%M:%S') if e.timestamp else '' }}
+                                </td>
+                                <td>
+                                    {% if e.event_type == 'EMAIL_SENT' %}
+                                        <span class="badge badge-event-sent">EMAIL_SENT</span>
+                                    {% elif e.event_type == 'EMAIL_OPENED' %}
+                                        <span class="badge badge-event-open">EMAIL_OPENED</span>
+                                    {% elif e.event_type == 'LINK_CLICKED' %}
+                                        <span class="badge badge-event-click">LINK_CLICKED</span>
+                                    {% elif e.event_type == 'PHISHING_REPORTED' %}
+                                        <span class="badge badge-event-report">PHISHING_REPORTED</span>
+                                    {% elif e.event_type == 'INCIDENT_CREATED' %}
+                                        <span class="badge badge-event-incident">INCIDENT_CREATED</span>
+                                    {% elif e.event_type == 'CAMPAIGN_CONTAINED' %}
+                                        <span class="badge badge-soc-contained">CAMPAIGN_CONTAINED</span>
+                                    {% elif e.event_type == 'INCIDENT_RESOLVED' %}
+                                        <span class="badge badge-soc-resolved">INCIDENT_RESOLVED</span>
+                                    {% elif e.event_type == 'TRAINING_PAGE_VIEWED' %}
+                                        <span class="badge badge-event-train">TRAINING_VIEWED</span>
+                                    {% else %}
+                                        <span class="badge badge-soc-neutral">{{ e.event_type }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if e.test_user %}
+                                        <span class="text-white fw-semibold">{{ e.test_user.username }}</span>
+                                        <span class="small text-muted d-block" style="font-size: 0.72rem;">{{ e.test_user.department }}</span>
+                                    {% else %}
+                                        <span class="text-secondary font-monospace">SYSTEM</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <span class="small text-secondary">{{ e.source }}</span>
+                                </td>
+                                <td>
+                                    {% if e.status == 'SUCCESS' %}
+                                        <span class="badge bg-success bg-opacity-25 text-success font-monospace" style="font-size: 0.7rem;">SUCCESS</span>
+                                    {% elif e.status == 'ALERT' %}
+                                        <span class="badge bg-danger bg-opacity-25 text-danger font-monospace" style="font-size: 0.7rem;">ALERT</span>
+                                    {% elif e.status == 'FLAGGED' %}
+                                        <span class="badge bg-warning bg-opacity-25 text-warning font-monospace" style="font-size: 0.7rem;">FLAGGED</span>
+                                    {% elif e.status == 'CONTAINED' %}
+                                        <span class="badge bg-warning bg-opacity-25 text-warning font-monospace" style="font-size: 0.7rem;">CONTAINED</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary bg-opacity-25 text-light font-monospace" style="font-size: 0.7rem;">{{ e.status }}</span>
+                                    {% endif %}
+                                </td>
+                                <td class="small text-secondary">
+                                    {{ e.details }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="mt-3 pt-3 border-top border-secondary border-opacity-50 text-center">
+                <span class="small text-muted">
+                    <i class="bi bi-shield-check text-success me-1"></i>
+                    All simulation logs are stored in SQLite (<code>database/app.db</code>) and contain zero sensitive user credentials.
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

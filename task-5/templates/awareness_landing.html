@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block title %}Phishing Simulation Detected — Educational Landing{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center my-4">
+    <div class="col-lg-8 col-xl-7">
+        <div class="soc-card p-4 p-md-5 border-warning border-opacity-50 text-center position-relative overflow-hidden" 
+             style="background: radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.1), transparent 70%), var(--bg-card);">
+            
+            <!-- Warning Shield Icon -->
+            <div class="mb-3">
+                <span class="p-3 d-inline-block rounded-circle bg-warning bg-opacity-10 border border-warning border-opacity-25 text-warning display-4">
+                    <i class="bi bi-shield-exclamation"></i>
+                </span>
+            </div>
+            
+            <span class="badge badge-soc-contained text-uppercase font-monospace px-3 py-1 mb-2">
+                Controlled Training Intercept
+            </span>
+            
+            <h1 class="h2 text-white fw-bold mb-2">Phishing Simulation Detected</h1>
+            
+            <p class="lead text-warning fw-semibold mb-3">
+                This was a controlled phishing-awareness simulation.
+            </p>
+            
+            <div class="alert alert-dark border border-secondary border-opacity-50 p-3 mb-4 text-start">
+                <div class="d-flex align-items-center gap-2 text-success fw-bold mb-1">
+                    <i class="bi bi-shield-check fs-5"></i>
+                    <span>Zero Data Harvested &bull; Safe Environment</span>
+                </div>
+                <div class="text-secondary small">
+                    You clicked a simulated verification link in a controlled test. 
+                    <strong>No password or sensitive information was collected.</strong> 
+                    No passwords, credentials, or personal information were requested, collected, or stored. 
+                    This exercise was safely conducted to evaluate our organization's cyber resilience.
+                </div>
+            </div>
+            
+            <!-- Warning Signs Breakdown -->
+            <div class="soc-card p-4 text-start mb-4 border-secondary border-opacity-50">
+                <h2 class="h6 text-white text-uppercase tracking-wider mb-3">
+                    <i class="bi bi-search text-info me-2"></i> Key Warning Signs You Encountered:
+                </h2>
+                
+                <ul class="list-unstyled mb-0 d-flex flex-column gap-2 text-secondary small">
+                    <li class="d-flex align-items-start gap-2">
+                        <i class="bi bi-check2-circle text-warning fs-5 flex-shrink-0"></i>
+                        <div><strong class="text-white">Unexpected security request:</strong> Internal IT rarely asks you to verify credentials via an unannounced external email.</div>
+                    </li>
+                    <li class="d-flex align-items-start gap-2">
+                        <i class="bi bi-check2-circle text-warning fs-5 flex-shrink-0"></i>
+                        <div><strong class="text-white">Urgent &amp; threatening language:</strong> Phrases like <em>"action required within 24 hours"</em> and <em>"suspension"</em> are psychological pressure tactics.</div>
+                    </li>
+                    <li class="d-flex align-items-start gap-2">
+                        <i class="bi bi-check2-circle text-warning fs-5 flex-shrink-0"></i>
+                        <div><strong class="text-white">Suspicious sender address:</strong> The sender was <code>security@techsecure-training.local</code> instead of the verified internal enterprise domain.</div>
+                    </li>
+                    <li class="d-flex align-items-start gap-2">
+                        <i class="bi bi-check2-circle text-warning fs-5 flex-shrink-0"></i>
+                        <div><strong class="text-white">Unusual verification URL:</strong> The link pointed to a secondary non-production destination rather than the official SSO authentication endpoint.</div>
+                    </li>
+                    <li class="d-flex align-items-start gap-2">
+                        <i class="bi bi-check2-circle text-warning fs-5 flex-shrink-0"></i>
+                        <div><strong class="text-white">Coercive call to action:</strong> Unsolicited prompts asking you to click an action button without independent verification.</div>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Call to Action -->
+            <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
+                <a href="{{ url_for('awareness.awareness_view', campaign_id=campaign.id if campaign else '', user_id=user.id if user else '') }}" 
+                   class="btn btn-soc-cyan px-4 py-2" id="btn-continue-training">
+                    <i class="bi bi-mortarboard-fill me-2"></i> Continue to Security Awareness Training
+                </a>
+                
+                <a href="{{ url_for('dashboard.dashboard_view') }}" class="btn btn-soc-outline px-4 py-2">
+                    <i class="bi bi-speedometer2 me-2"></i> View SOC Metrics
+                </a>
+            </div>
+            
+            <div class="mt-4 pt-3 border-top border-secondary border-opacity-50 small text-muted font-monospace">
+                Simulation Telemetry Recorded: <code>LINK_CLICKED</code> &bull; Safe Audit ID: #{{ campaign.id if campaign else 'DEMO' }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

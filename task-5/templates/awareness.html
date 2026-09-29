@@ -1,0 +1,318 @@
+{% extends 'base.html' %}
+
+{% block title %}Security Awareness Training — PhishAware{% endblock %}
+
+{% block content %}
+<div class="row g-4 mb-4">
+    <div class="col-12">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+            <div>
+                <h1 class="h3 text-white mb-1">
+                    <i class="bi bi-mortarboard-fill text-info me-2"></i> Security Awareness &amp; Phishing Defense
+                </h1>
+                <p class="text-secondary small mb-0">
+                    Comprehensive training module on social engineering defense, threat indicators, and incident prevention.
+                </p>
+            </div>
+            
+            {% if user %}
+                <span class="badge badge-soc-active py-2 px-3">
+                    <i class="bi bi-person-check-fill me-1"></i> Participant: {{ user.display_name }} (Training Completed)
+                </span>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Golden Rule Hero Box -->
+<div class="row g-4 mb-4">
+    <div class="col-12">
+        <div class="soc-card p-4 border-info border-opacity-50" style="background: radial-gradient(circle at 100% 0%, rgba(0, 210, 255, 0.08), transparent 50%), var(--bg-card);">
+            <div class="d-flex align-items-start gap-3">
+                <div class="p-3 rounded-circle bg-info bg-opacity-10 text-info fs-3 flex-shrink-0">
+                    <i class="bi bi-gem"></i>
+                </div>
+                <div>
+                    <span class="badge badge-soc-neutral text-uppercase font-monospace mb-1">The Golden Rule of Phishing Defense</span>
+                    <h2 class="h5 text-white fw-bold mb-2">
+                        "If an unexpected message asks you to act urgently, verify it through an independent trusted channel."
+                    </h2>
+                    <p class="text-secondary small mb-0">
+                        Never rely on phone numbers, email addresses, or links contained inside a suspicious message. Always contact the individual or department directly using established internal phone directories or official bookmarked portals.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <!-- What is Phishing? -->
+    <div class="col-lg-6">
+        <div class="soc-card h-100 p-4">
+            <h2 class="h5 text-white mb-3">
+                <i class="bi bi-question-circle text-info me-2"></i> What is Phishing?
+            </h2>
+            <p class="text-secondary small leading-relaxed">
+                <strong>Phishing</strong> is a form of social engineering where attackers impersonate trustworthy entities (such as internal IT, company executives, banks, or cloud service providers) to deceive individuals into performing unsafe actions.
+            </p>
+            <p class="text-secondary small leading-relaxed">
+                Attackers exploit human psychology rather than technical vulnerabilities. They rely heavily on:
+            </p>
+            <div class="row g-2 mb-3">
+                <div class="col-6">
+                    <div class="p-2 rounded bg-dark border border-secondary border-opacity-50 small">
+                        <strong class="text-warning"><i class="bi bi-alarm me-1"></i> Urgency:</strong> Threatening account suspension or legal action.
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="p-2 rounded bg-dark border border-secondary border-opacity-50 small">
+                        <strong class="text-info"><i class="bi bi-award me-1"></i> Authority:</strong> Posing as senior executives or IT administrators.
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="p-2 rounded bg-dark border border-secondary border-opacity-50 small">
+                        <strong class="text-danger"><i class="bi bi-shield-slash me-1"></i> Fear:</strong> Claiming security compromises or unpaid invoices.
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="p-2 rounded bg-dark border border-secondary border-opacity-50 small">
+                        <strong class="text-success"><i class="bi bi-gift me-1"></i> Curiosity/Greed:</strong> Offering rewards, bonuses, or unexpected gifts.
+                    </div>
+                </div>
+            </div>
+            <div class="p-3 rounded bg-dark border border-secondary small text-muted">
+                <strong class="text-light">Key Insight:</strong> 80%+ of real-world cybersecurity breaches begin with a phishing email targeting human credentials or initial access.
+            </div>
+        </div>
+    </div>
+    
+    <!-- What Should Users Do? 6-Step Defense -->
+    <div class="col-lg-6">
+        <div class="soc-card h-100 p-4">
+            <h2 class="h5 text-white mb-3">
+                <i class="bi bi-shield-check text-success me-2"></i> What Should Users Do? (6-Step Defense)
+            </h2>
+            <div class="d-flex flex-column gap-3">
+                <div class="d-flex gap-3 align-items-start">
+                    <span class="badge bg-primary rounded-circle p-2 px-3 fw-bold">1</span>
+                    <div>
+                        <strong class="text-white small d-block">Stop and Verify</strong>
+                        <span class="text-secondary small">Pause before clicking or replying. Do not allow simulated panic or manufactured deadlines to rush your judgment.</span>
+                    </div>
+                </div>
+                <div class="d-flex gap-3 align-items-start">
+                    <span class="badge bg-primary rounded-circle p-2 px-3 fw-bold">2</span>
+                    <div>
+                        <strong class="text-white small d-block">Inspect the Sender Address</strong>
+                        <span class="text-secondary small">Examine the full email address, not just the display name. Look for lookalike typosquatting domains (e.g., <code>tech-secure.org</code> vs <code>techsecure.com</code>).</span>
+                    </div>
+                </div>
+                <div class="d-flex gap-3 align-items-start">
+                    <span class="badge bg-primary rounded-circle p-2 px-3 fw-bold">3</span>
+                    <div>
+                        <strong class="text-white small d-block">Hover Over Links Before Clicking</strong>
+                        <span class="text-secondary small">Hover your cursor to inspect the actual destination URL in your browser status bar before opening any hyperlink.</span>
+                    </div>
+                </div>
+                <div class="d-flex gap-3 align-items-start">
+                    <span class="badge bg-primary rounded-circle p-2 px-3 fw-bold">4</span>
+                    <div>
+                        <strong class="text-white small d-block">Avoid Entering Credentials</strong>
+                        <span class="text-secondary small">Internal IT will never send unsolicited emails demanding that you re-enter your password on an unfamiliar page.</span>
+                    </div>
+                </div>
+                <div class="d-flex gap-3 align-items-start">
+                    <span class="badge bg-primary rounded-circle p-2 px-3 fw-bold">5</span>
+                    <div>
+                        <strong class="text-white small d-block">Report Suspicious Messages Immediately</strong>
+                        <span class="text-secondary small">Click the "Report Phishing" button in your corporate webmail or forward the message as an attachment to <code>soc@organization.local</code>.</span>
+                    </div>
+                </div>
+                <div class="d-flex gap-3 align-items-start">
+                    <span class="badge bg-primary rounded-circle p-2 px-3 fw-bold">6</span>
+                    <div>
+                        <strong class="text-white small d-block">Contact IT / Security Team via Known Channel</strong>
+                        <span class="text-secondary small">Confirm requests via official internal Slack/Teams channels or corporate voice directories.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 9 Common Phishing Indicators -->
+<div class="row g-4 mb-4">
+    <div class="col-12">
+        <div class="soc-card p-4">
+            <h2 class="h5 text-white mb-3">
+                <i class="bi bi-exclamation-triangle text-warning me-2"></i> 9 Common Phishing Indicators &amp; Red Flags
+            </h2>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="p-3 rounded bg-dark border border-secondary h-100">
+                        <div class="text-info fw-bold mb-1"><i class="bi bi-at me-1"></i> 1. Suspicious Sender Address</div>
+                        <div class="small text-secondary">Display name claims to be "HR" or "IT", but the actual sender domain is from a public or spoofed external domain.</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-3 rounded bg-dark border border-secondary h-100">
+                        <div class="text-warning fw-bold mb-1"><i class="bi bi-hourglass-split me-1"></i> 2. Extreme Urgency</div>
+                        <div class="small text-secondary">Deadlines such as "Respond in 1 hour" or "Account will be terminated tonight" intended to bypass logical scrutiny.</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-3 rounded bg-dark border border-secondary h-100">
+                        <div class="text-danger fw-bold mb-1"><i class="bi bi-paperclip me-1"></i> 3. Unexpected Attachments</div>
+                        <div class="small text-secondary">Unsolicited invoices, shipping forms, or macros disguised as .iso, .vbs, .zip, .exe, or .docm files.</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-3 rounded bg-dark border border-secondary h-100">
+                        <div class="text-danger fw-bold mb-1"><i class="bi bi-link-45deg me-1"></i> 4. Mismatched Links</div>
+                        <div class="small text-secondary">The visible text says <code>portal.company.com</code>, but the actual hyperlink destination routes to an external arbitrary server.</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-3 rounded bg-dark border border-secondary h-100">
+                        <div class="text-info fw-bold mb-1"><i class="bi bi-spellcheck me-1"></i> 5. Spelling &amp; Grammar Oddities</div>
+                        <div class="small text-secondary">Awkward syntax, unusual character substitutions (homoglyphs), or robotic translations from foreign threat actors.</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-3 rounded bg-dark border border-secondary h-100">
+                        <div class="text-warning fw-bold mb-1"><i class="bi bi-key me-1"></i> 6. Requests for Credentials</div>
+                        <div class="small text-secondary">Any prompt asking you to input your master password, MFA one-time codes, or security recovery answers.</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-3 rounded bg-dark border border-secondary h-100">
+                        <div class="text-warning fw-bold mb-1"><i class="bi bi-cash-coin me-1"></i> 7. Requests for Financial Action</div>
+                        <div class="small text-secondary">Urgent requests to update direct deposit information, purchase gift cards, or route wire transfers (CEO fraud / BEC).</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-3 rounded bg-dark border border-secondary h-100">
+                        <div class="text-danger fw-bold mb-1"><i class="bi bi-window-x me-1"></i> 8. Fake Login Pages</div>
+                        <div class="small text-secondary">Pixel-perfect clones of Microsoft 365, Google Workspace, or Okta portals designed to capture session cookies and tokens.</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-3 rounded bg-dark border border-secondary h-100">
+                        <div class="text-info fw-bold mb-1"><i class="bi bi-globe me-1"></i> 9. Domain Impersonation</div>
+                        <div class="small text-secondary">Subtle character substitutions such as replacing letter 'o' with zero '0', or 'l' with uppercase 'I' (e.g. <code>micros0ft.com</code>).</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Interactive Red Flag Spotter Mini-Quiz -->
+<div class="row g-4 mb-4">
+    <div class="col-12">
+        <div class="soc-card p-4">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h2 class="h5 text-white mb-0">
+                    <i class="bi bi-check2-square text-info me-2"></i> Interactive Threat Spotter Quiz
+                </h2>
+                <span class="badge badge-soc-neutral" id="quiz-score">Score: 0 / 3</span>
+            </div>
+            
+            <p class="small text-secondary mb-4">
+                Evaluate each scenario below. Decide whether the communication is a legitimate corporate notice or a simulated phishing attack:
+            </p>
+            
+            <div class="row g-4" id="quiz-container">
+                <!-- Question 1 -->
+                <div class="col-md-4">
+                    <div class="soc-card p-3 h-100 border-secondary border-opacity-50">
+                        <div class="badge badge-soc-neutral mb-2">Scenario 1</div>
+                        <h3 class="h6 text-white fw-bold mb-2">Payroll Direct Deposit Change</h3>
+                        <p class="small text-secondary mb-3">
+                            You receive an email from <code>hr-payroll@corp-update.net</code> stating: <em>"Your monthly salary deposit failed. Re-enter banking details in 6 hours or pay will be delayed."</em>
+                        </p>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-sm btn-outline-danger w-50" onclick="answerQuiz(1, 'phish')">Phishing</button>
+                            <button class="btn btn-sm btn-outline-success w-50" onclick="answerQuiz(1, 'legit')">Legitimate</button>
+                        </div>
+                        <div id="quiz-feedback-1" class="mt-2 small d-none"></div>
+                    </div>
+                </div>
+                
+                <!-- Question 2 -->
+                <div class="col-md-4">
+                    <div class="soc-card p-3 h-100 border-secondary border-opacity-50">
+                        <div class="badge badge-soc-neutral mb-2">Scenario 2</div>
+                        <h3 class="h6 text-white fw-bold mb-2">Quarterly All-Hands Invitation</h3>
+                        <p class="small text-secondary mb-3">
+                            Calendar invite from <code>internal-comms@yourcompany.com</code> with standard Zoom link listed on internal wiki, matching your company's announced all-hands schedule.
+                        </p>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-sm btn-outline-danger w-50" onclick="answerQuiz(2, 'phish')">Phishing</button>
+                            <button class="btn btn-sm btn-outline-success w-50" onclick="answerQuiz(2, 'legit')">Legitimate</button>
+                        </div>
+                        <div id="quiz-feedback-2" class="mt-2 small d-none"></div>
+                    </div>
+                </div>
+                
+                <!-- Question 3 -->
+                <div class="col-md-4">
+                    <div class="soc-card p-3 h-100 border-secondary border-opacity-50">
+                        <div class="badge badge-soc-neutral mb-2">Scenario 3</div>
+                        <h3 class="h6 text-white fw-bold mb-2">IT Password Expiry Notice</h3>
+                        <p class="small text-secondary mb-3">
+                            An email titled <em>"Urgent: Password expires in 10 mins"</em> containing a button pointing to <code>http://secure-login.techsecure-portal.xyz/reset</code>.
+                        </p>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-sm btn-outline-danger w-50" onclick="answerQuiz(3, 'phish')">Phishing</button>
+                            <button class="btn btn-sm btn-outline-success w-50" onclick="answerQuiz(3, 'legit')">Legitimate</button>
+                        </div>
+                        <div id="quiz-feedback-3" class="mt-2 small d-none"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+let score = 0;
+const answered = {};
+
+function answerQuiz(qNum, choice) {
+    if (answered[qNum]) return;
+    answered[qNum] = true;
+    
+    const fb = document.getElementById(`quiz-feedback-${qNum}`);
+    fb.classList.remove('d-none');
+    
+    if (qNum === 1) {
+        if (choice === 'phish') {
+            score++;
+            fb.innerHTML = `<span class="text-success"><i class="bi bi-check-circle-fill"></i> Correct!</span> High urgency + external domain <code>.net</code> requesting banking data is classic phishing.`;
+        } else {
+            fb.innerHTML = `<span class="text-danger"><i class="bi bi-x-circle-fill"></i> Incorrect.</span> Banking changes should never be done over external email links with tight deadlines.`;
+        }
+    } else if (qNum === 2) {
+        if (choice === 'legit') {
+            score++;
+            fb.innerHTML = `<span class="text-success"><i class="bi bi-check-circle-fill"></i> Correct!</span> Verified domain and pre-scheduled calendar event is legitimate communication.`;
+        } else {
+            fb.innerHTML = `<span class="text-danger"><i class="bi bi-x-circle-fill"></i> Incorrect.</span> Verified internal domain matching standard routine calendar invites is legitimate.`;
+        }
+    } else if (qNum === 3) {
+        if (choice === 'phish') {
+            score++;
+            fb.innerHTML = `<span class="text-success"><i class="bi bi-check-circle-fill"></i> Correct!</span> 10-minute panic urgency + suspicious <code>.xyz</code> domain = unmistakable credential harvesting attack.`;
+        } else {
+            fb.innerHTML = `<span class="text-danger"><i class="bi bi-x-circle-fill"></i> Incorrect.</span> Never click password reset links pointing to unrecognized domains under false urgency.`;
+        }
+    }
+    
+    document.getElementById('quiz-score').innerText = `Score: ${score} / 3`;
+}
+</script>
+{% endblock %}

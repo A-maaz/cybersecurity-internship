@@ -1,0 +1,299 @@
+{% extends 'base.html' %}
+
+{% block title %}PhishAware — Phishing Awareness Simulation & Incident Response{% endblock %}
+
+{% block content %}
+<div class="row g-4 mb-4">
+    <!-- Hero Banner -->
+    <div class="col-12">
+        <div class="soc-card p-4 p-lg-5 position-relative overflow-hidden" style="background: radial-gradient(circle at 85% 20%, rgba(0, 210, 255, 0.12), transparent 45%), var(--bg-card);">
+            <div class="row align-items-center g-4">
+                <div class="col-lg-8">
+                    <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill badge-soc-neutral mb-3">
+                        <i class="bi bi-shield-lock text-info"></i>
+                        <span class="small fw-semibold text-uppercase tracking-wide">Enterprise SOC Simulation & Training</span>
+                    </div>
+                    
+                    <h1 class="display-5 fw-bold text-white mb-2">
+                        Phish<span class="brand-badge">Aware</span>
+                    </h1>
+                    
+                    <h2 class="h4 text-info fw-normal mb-3">
+                        Phishing Awareness Simulation &amp; Incident Response Platform
+                    </h2>
+                    
+                    <p class="lead text-secondary mb-4" style="max-width: 720px; font-size: 1.05rem; line-height: 1.6;">
+                        A controlled cybersecurity training platform designed to simulate phishing scenarios, record safe user interactions, demonstrate incident detection, and provide security awareness guidance.
+                    </p>
+                    
+                    <div class="d-flex flex-wrap gap-2 pt-1">
+                        <a href="{{ url_for('simulation.simulation_list') }}" class="btn btn-soc-cyan px-4 py-2" id="btn-hero-simulation">
+                            <i class="bi bi-play-circle-fill me-2"></i> Start Simulation
+                        </a>
+                        <a href="{{ url_for('dashboard.dashboard_view') }}" class="btn btn-soc-outline px-4 py-2" id="btn-hero-dashboard">
+                            <i class="bi bi-speedometer2 me-2"></i> View Dashboard
+                        </a>
+                        <a href="{{ url_for('incident.incident_list') }}" class="btn btn-soc-warning px-4 py-2" id="btn-hero-incidents">
+                            <i class="bi bi-shield-exclamation me-2"></i> Incident Response
+                        </a>
+                        <a href="{{ url_for('awareness.awareness_view') }}" class="btn btn-outline-secondary px-3 py-2 text-light" id="btn-hero-awareness">
+                            <i class="bi bi-mortarboard me-2"></i> Learn About Phishing
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 text-center">
+                    <div class="p-4 rounded-4 border border-secondary border-opacity-50 text-center" style="background-color: rgba(15, 23, 42, 0.7);">
+                        <i class="bi bi-shield-check text-success display-4 mb-2"></i>
+                        <h3 class="h6 text-white text-uppercase tracking-wider mb-2">Authorized Training Environment</h3>
+                        <p class="small text-muted mb-3">
+                            Localhost sandbox operating exclusively on synthetic test fixtures. Passwords and credentials are never captured or stored.
+                        </p>
+                        <div class="d-flex justify-content-center gap-2">
+                            <span class="badge badge-soc-active">Safe Telemetry</span>
+                            <span class="badge badge-soc-resolved">Fictional Scope</span>
+                            <span class="badge badge-soc-contained">Zero Harvest</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Complete Cybersecurity Lifecycle -->
+<div class="row g-4 mb-4">
+    <div class="col-12">
+        <div class="soc-card p-4">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h2 class="h5 text-white mb-0">
+                    <i class="bi bi-diagram-3 text-info me-2"></i> Complete Phishing Defense &amp; Response Lifecycle
+                </h2>
+                <span class="small text-muted font-monospace">END-TO-END SOC WORKFLOW</span>
+            </div>
+            
+            <p class="small text-secondary mb-4">
+                This platform implements the full operational lifecycle required for cybersecurity internship capstone demonstration:
+            </p>
+            
+            <div class="lifecycle-flow">
+                <div class="lifecycle-step">
+                    <i class="bi bi-clipboard2-check text-primary"></i> 1. Project Planning
+                </div>
+                <div class="lifecycle-arrow"><i class="bi bi-arrow-right"></i></div>
+                
+                <div class="lifecycle-step">
+                    <i class="bi bi-pencil-square text-info"></i> 2. Scenario Creation
+                </div>
+                <div class="lifecycle-arrow"><i class="bi bi-arrow-right"></i></div>
+                
+                <div class="lifecycle-step">
+                    <i class="bi bi-envelope-exclamation text-warning"></i> 3. Simulated Email
+                </div>
+                <div class="lifecycle-arrow"><i class="bi bi-arrow-right"></i></div>
+                
+                <div class="lifecycle-step">
+                    <i class="bi bi-cursor text-danger"></i> 4. User Interaction
+                </div>
+                <div class="lifecycle-arrow"><i class="bi bi-arrow-right"></i></div>
+                
+                <div class="lifecycle-step">
+                    <i class="bi bi-shield-check text-success"></i> 5. Safe Training Page
+                </div>
+                <div class="lifecycle-arrow"><i class="bi bi-arrow-right"></i></div>
+                
+                <div class="lifecycle-step">
+                    <i class="bi bi-journal-text text-secondary"></i> 6. Event Logging
+                </div>
+            </div>
+            
+            <div class="lifecycle-flow mt-3">
+                <div class="lifecycle-step">
+                    <i class="bi bi-speedometer2 text-info"></i> 7. Security Monitoring
+                </div>
+                <div class="lifecycle-arrow"><i class="bi bi-arrow-right"></i></div>
+                
+                <div class="lifecycle-step">
+                    <i class="bi bi-radioactive text-danger"></i> 8. Incident Detection
+                </div>
+                <div class="lifecycle-arrow"><i class="bi bi-arrow-right"></i></div>
+                
+                <div class="lifecycle-step">
+                    <i class="bi bi-slash-circle text-warning"></i> 9. Containment
+                </div>
+                <div class="lifecycle-arrow"><i class="bi bi-arrow-right"></i></div>
+                
+                <div class="lifecycle-step">
+                    <i class="bi bi-trash3 text-danger"></i> 10. Eradication
+                </div>
+                <div class="lifecycle-arrow"><i class="bi bi-arrow-right"></i></div>
+                
+                <div class="lifecycle-step">
+                    <i class="bi bi-arrow-repeat text-success"></i> 11. Recovery
+                </div>
+                <div class="lifecycle-arrow"><i class="bi bi-arrow-right"></i></div>
+                
+                <div class="lifecycle-step">
+                    <i class="bi bi-file-earmark-bar-graph text-primary"></i> 12. Post-Incident Analysis
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 4 Key Modules Grid -->
+<div class="row g-4 mb-4">
+    <div class="col-md-6 col-lg-3">
+        <div class="soc-card h-100 p-4">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <div class="p-2 rounded bg-primary bg-opacity-20 text-primary">
+                    <i class="bi bi-send-check fs-4"></i>
+                </div>
+                <span class="badge badge-soc-neutral">Module 1</span>
+            </div>
+            <h3 class="h6 text-white fw-bold mb-2">Controlled Simulation</h3>
+            <p class="small text-secondary mb-3">
+                Launch targeted educational campaigns with realistic indicators, sender spoofing warnings, and test mailboxes.
+            </p>
+            <a href="{{ url_for('simulation.simulation_list') }}" class="small text-info text-decoration-none fw-semibold">
+                Configure Campaigns <i class="bi bi-chevron-right"></i>
+            </a>
+        </div>
+    </div>
+    
+    <div class="col-md-6 col-lg-3">
+        <div class="soc-card h-100 p-4">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <div class="p-2 rounded bg-info bg-opacity-20 text-info">
+                    <i class="bi bi-activity fs-4"></i>
+                </div>
+                <span class="badge badge-soc-neutral">Module 2</span>
+            </div>
+            <h3 class="h6 text-white fw-bold mb-2">SOC Telemetry &amp; Metrics</h3>
+            <p class="small text-secondary mb-3">
+                Real-time tracking of sent, opened, clicked, and reported events with Chart.js funnel metrics and CSV auditing.
+            </p>
+            <a href="{{ url_for('dashboard.dashboard_view') }}" class="small text-info text-decoration-none fw-semibold">
+                Open Dashboard <i class="bi bi-chevron-right"></i>
+            </a>
+        </div>
+    </div>
+    
+    <div class="col-md-6 col-lg-3">
+        <div class="soc-card h-100 p-4">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <div class="p-2 rounded bg-warning bg-opacity-20 text-warning">
+                    <i class="bi bi-shield-lock-fill fs-4"></i>
+                </div>
+                <span class="badge badge-soc-neutral">Module 3</span>
+            </div>
+            <h3 class="h6 text-white fw-bold mb-2">Incident Response</h3>
+            <p class="small text-secondary mb-3">
+                Triggered anomaly detection with interactive containment (disable campaign, block sender) and eradication workflows.
+            </p>
+            <a href="{{ url_for('incident.incident_list') }}" class="small text-info text-decoration-none fw-semibold">
+                Manage Incidents <i class="bi bi-chevron-right"></i>
+            </a>
+        </div>
+    </div>
+    
+    <div class="col-md-6 col-lg-3">
+        <div class="soc-card h-100 p-4">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <div class="p-2 rounded bg-success bg-opacity-20 text-success">
+                    <i class="bi bi-lightbulb fs-4"></i>
+                </div>
+                <span class="badge badge-soc-neutral">Module 4</span>
+            </div>
+            <h3 class="h6 text-white fw-bold mb-2">Awareness Training</h3>
+            <p class="small text-secondary mb-3">
+                Safe educational landing pages, interactive red-flag inspectors, 6 defense rules, and interactive phishing quizzes.
+            </p>
+            <a href="{{ url_for('awareness.awareness_view') }}" class="small text-info text-decoration-none fw-semibold">
+                Explore Curriculum <i class="bi bi-chevron-right"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Platform Status Snapshot -->
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="soc-card p-4">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h2 class="h6 text-white mb-0">
+                    <i class="bi bi-cpu text-info me-2"></i> Current Simulation Status Snapshot
+                </h2>
+                {% if active_campaign %}
+                    <span class="badge badge-soc-active">CAMPAIGN: {{ active_campaign.status }}</span>
+                {% else %}
+                    <span class="badge badge-soc-neutral">NO ACTIVE CAMPAIGN</span>
+                {% endif %}
+            </div>
+            
+            {% if active_campaign %}
+                <div class="p-3 rounded bg-dark border border-secondary mb-3">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <div>
+                            <span class="text-white fw-bold">{{ active_campaign.name }}</span>
+                            <div class="small text-muted">Scenario: {{ active_campaign.scenario }} &bull; Target: {{ active_campaign.target_department }}</div>
+                        </div>
+                        <a href="{{ url_for('simulation.simulation_detail', id=active_campaign.id) }}" class="btn btn-sm btn-soc-cyan">
+                            Console <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+            
+            <div class="row g-3 text-center">
+                <div class="col-3">
+                    <div class="p-2 rounded bg-dark border border-secondary border-opacity-50">
+                        <div class="small text-muted">Campaigns</div>
+                        <div class="h4 text-white fw-bold mb-0">{{ total_campaigns }}</div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="p-2 rounded bg-dark border border-secondary border-opacity-50">
+                        <div class="small text-muted">Test Users</div>
+                        <div class="h4 text-info fw-bold mb-0">{{ total_users }}</div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="p-2 rounded bg-dark border border-secondary border-opacity-50">
+                        <div class="small text-muted">Total Events</div>
+                        <div class="h4 text-warning fw-bold mb-0">{{ total_events }}</div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="p-2 rounded bg-dark border border-secondary border-opacity-50">
+                        <div class="small text-muted">Incidents</div>
+                        <div class="h4 text-danger fw-bold mb-0">{{ total_incidents }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4">
+        <div class="soc-card p-4">
+            <h2 class="h6 text-white mb-3">
+                <i class="bi bi-terminal text-info me-2"></i> Quick Presentation Actions
+            </h2>
+            <div class="d-grid gap-2">
+                <a href="{{ url_for('main.demo_seed') }}" class="btn btn-soc-outline text-start">
+                    <i class="bi bi-arrow-clockwise text-info me-2"></i> Reset &amp; Seed Demo Data
+                </a>
+                <a href="{{ url_for('simulation.simulation_list') }}" class="btn btn-soc-outline text-start">
+                    <i class="bi bi-plus-circle text-primary me-2"></i> Launch New Campaign
+                </a>
+                <a href="{{ url_for('dashboard.export_csv') }}" class="btn btn-soc-outline text-start">
+                    <i class="bi bi-file-earmark-arrow-down text-success me-2"></i> Download Event Audit CSV
+                </a>
+            </div>
+            <div class="mt-3 pt-3 border-top border-secondary border-opacity-50 small text-muted">
+                <i class="bi bi-info-circle me-1 text-info"></i> Ready for 12-minute capstone demonstration recording.
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

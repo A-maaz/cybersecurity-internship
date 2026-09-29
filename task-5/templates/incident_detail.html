@@ -1,0 +1,271 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ incident.incident_number }} — Incident Response Workbench{% endblock %}
+
+{% block content %}
+<div class="row g-4 mb-3">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb small mb-1">
+                <li class="breadcrumb-item"><a href="{{ url_for('incident.incident_list') }}" class="text-info text-decoration-none">Incidents</a></li>
+                <li class="breadcrumb-item active text-secondary" aria-current="page">{{ incident.incident_number }}</li>
+            </ol>
+        </nav>
+        
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+            <div>
+                <div class="d-flex align-items-center gap-2 mb-1">
+                    <h1 class="h3 text-white mb-0">{{ incident.incident_number }}: {{ incident.title }}</h1>
+                    {% if incident.status == 'Resolved' %}
+                        <span class="badge badge-soc-resolved">RESOLVED</span>
+                    {% elif incident.status == 'Contained' %}
+                        <span class="badge badge-soc-contained">CONTAINED</span>
+                    {% elif incident.status == 'Eradicated' %}
+                        <span class="badge badge-soc-active">ERADICATED</span>
+                    {% else %}
+                        <span class="badge badge-soc-detected">{{ incident.status|upper }}</span>
+                    {% endif %}
+                </div>
+                <div class="text-secondary small">
+                    <span><strong>Category:</strong> {{ incident.category }}</span> &bull; 
+                    <span><strong>Severity:</strong> <span class="badge bg-warning bg-opacity-25 text-warning">{{ incident.severity }}</span></span> &bull;
+                    <span><strong>Created:</strong> {{ incident.created_at.strftime('%Y-%m-%d %H:%M:%S UTC') if incident.created_at else '' }}</span>
+                </div>
+            </div>
+            
+            <div class="d-flex gap-2">
+                <a href="{{ url_for('incident.incident_report', id=incident.id) }}" class="btn btn-soc-cyan" id="btn-view-formal-report">
+                    <i class="bi bi-file-earmark-pdf-fill me-1"></i> Generate Formal Report
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Incident Lifecycle Status Progression Pipeline -->
+<div class="row g-4 mb-4">
+    <div class="col-12">
+        <div class="soc-card p-3">
+            <div class="lifecycle-flow justify-content-between">
+                <div class="lifecycle-step {% if incident.status in ['Detected', 'Analyzing', 'Contained', 'Eradicated', 'Recovered', 'Resolved'] %}border-danger text-white{% endif %}">
+                    <i class="bi bi-radioactive text-danger"></i> 1. Detection
+                </div>
+                <div class="lifecycle-arrow"><i class="bi bi-chevron-right"></i></div>
+                
+                <div class="lifecycle-step {% if incident.status in ['Analyzing', 'Contained', 'Eradicated', 'Recovered', 'Resolved'] %}border-info text-white{% endif %}">
+                    <i class="bi bi-search text-info"></i> 2. Analysis
+                </div>
+                <div class="lifecycle-arrow"><i class="bi bi-chevron-right"></i></div>
+                
+                <div class="lifecycle-step {% if incident.status in ['Contained', 'Eradicated', 'Recovered', 'Resolved'] %}border-warning text-white{% endif %}">
+                    <i class="bi bi-slash-circle text-warning"></i> 3. Containment
+                </div>
+                <div class="lifecycle-arrow"><i class="bi bi-chevron-right"></i></div>
+                
+                <div class="lifecycle-step {% if incident.status in ['Eradicated', 'Recovered', 'Resolved'] %}border-primary text-white{% endif %}">
+                    <i class="bi bi-trash3 text-primary"></i> 4. Eradication
+                </div>
+                <div class="lifecycle-arrow"><i class="bi bi-chevron-right"></i></div>
+                
+                <div class="lifecycle-step {% if incident.status in ['Recovered', 'Resolved'] %}border-success text-white{% endif %}">
+                    <i class="bi bi-arrow-repeat text-success"></i> 5. Recovery
+                </div>
+                <div class="lifecycle-arrow"><i class="bi bi-chevron-right"></i></div>
+                
+                <div class="lifecycle-step {% if incident.status == 'Resolved' %}border-info text-white bg-info bg-opacity-10{% endif %}">
+                    <i class="bi bi-award text-info"></i> 6. Lessons Learned
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Left Column: Detection, Attack Vector, and Interactive Action Panels -->
+    <div class="col-lg-7">
+        <!-- Detection & Attack Vector Box -->
+        <div class="soc-card p-4 mb-4">
+            <h2 class="h6 text-white mb-3">
+                <i class="bi bi-radar text-danger me-2"></i> Detection Indicators &amp; Threat Vector
+            </h2>
+            
+            <div class="p-3 rounded bg-dark border border-secondary mb-3">
+                <div class="text-white fw-bold small mb-1">
+                    <i class="bi bi-bell-fill text-warning me-1"></i> Autonomous Detection Anomaly Trigger:
+                </div>
+                <p class="small text-secondary mb-0">
+                    {{ incident.detection_indicators or 'Anomalous interaction threshold triggered due to multiple user link clicks and proactive phishing reports in simulated corporate mailbox.' }}
+                </p>
+            </div>
+            
+            <div class="row g-3 small">
+                <div class="col-sm-6">
+                    <div class="p-2 rounded bg-dark border border-secondary border-opacity-50">
+                        <span class="text-muted d-block">Attack Vector:</span>
+                        <span class="text-white fw-semibold">Social Engineering / Spear Phishing Email</span>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="p-2 rounded bg-dark border border-secondary border-opacity-50">
+                        <span class="text-muted d-block">Impact Scope (Simulated):</span>
+                        <span class="text-success fw-semibold">Controlled Test &bull; Zero Real Credential Loss</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Interactive Incident Response Actions Console -->
+        <div class="soc-card p-4 mb-4">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h2 class="h6 text-white mb-0">
+                    <i class="bi bi-sliders2 text-info me-2"></i> Interactive SOC Response Controls
+                </h2>
+                <span class="badge badge-soc-neutral">SIMULATION ACTIONS</span>
+            </div>
+            
+            <p class="small text-secondary mb-4">
+                Execute controlled containment, eradication, and recovery procedures. These update the application's incident state safely without touching external systems.
+            </p>
+            
+            <!-- Containment Actions -->
+            <div class="mb-4">
+                <h3 class="h6 text-warning fw-bold mb-2">
+                    <i class="bi bi-slash-circle me-1"></i> Phase 1: Containment Procedures
+                </h3>
+                <div class="d-flex flex-wrap gap-2">
+                    <form action="{{ url_for('incident.execute_action', id=incident.id) }}" method="POST" class="d-inline">
+                        <input type="hidden" name="action_type" value="disable_campaign">
+                        <button type="submit" class="btn btn-sm btn-soc-warning">
+                            <i class="bi bi-stop-circle me-1"></i> Disable Campaign
+                        </button>
+                    </form>
+                    
+                    <form action="{{ url_for('incident.execute_action', id=incident.id) }}" method="POST" class="d-inline">
+                        <input type="hidden" name="action_type" value="block_sender">
+                        <button type="submit" class="btn btn-sm btn-soc-outline">
+                            <i class="bi bi-shield-slash me-1"></i> Block Simulated Sender
+                        </button>
+                    </form>
+                    
+                    <form action="{{ url_for('incident.execute_action', id=incident.id) }}" method="POST" class="d-inline">
+                        <input type="hidden" name="action_type" value="notify_users">
+                        <button type="submit" class="btn btn-sm btn-soc-outline">
+                            <i class="bi bi-broadcast me-1"></i> Broadcast Advisory Notice
+                        </button>
+                    </form>
+                    
+                    <form action="{{ url_for('incident.execute_action', id=incident.id) }}" method="POST" class="d-inline">
+                        <input type="hidden" name="action_type" value="mark_contained">
+                        <button type="submit" class="btn btn-sm btn-soc-warning">
+                            <i class="bi bi-check-circle me-1"></i> Mark Contained
+                        </button>
+                    </form>
+                </div>
+                {% if incident.containment_notes %}
+                    <div class="mt-2 p-2 rounded bg-dark border border-secondary border-opacity-50 small text-muted font-monospace" style="font-size: 0.75rem;">
+                        {{ incident.containment_notes }}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <!-- Eradication Actions -->
+            <div class="mb-4">
+                <h3 class="h6 text-danger fw-bold mb-2">
+                    <i class="bi bi-trash3 me-1"></i> Phase 2: Eradication Procedures
+                </h3>
+                <div class="d-flex flex-wrap gap-2">
+                    <form action="{{ url_for('incident.execute_action', id=incident.id) }}" method="POST" class="d-inline">
+                        <input type="hidden" name="action_type" value="disable_link">
+                        <button type="submit" class="btn btn-sm btn-soc-danger">
+                            <i class="bi bi-link-45deg me-1"></i> Quarantine Link Gateway
+                        </button>
+                    </form>
+                    
+                    <form action="{{ url_for('incident.execute_action', id=incident.id) }}" method="POST" class="d-inline">
+                        <input type="hidden" name="action_type" value="preserve_evidence">
+                        <button type="submit" class="btn btn-sm btn-soc-outline">
+                            <i class="bi bi-lock me-1"></i> Lock &amp; Hash Evidence
+                        </button>
+                    </form>
+                    
+                    <form action="{{ url_for('incident.execute_action', id=incident.id) }}" method="POST" class="d-inline">
+                        <input type="hidden" name="action_type" value="mark_eradicated">
+                        <button type="submit" class="btn btn-sm btn-soc-danger">
+                            <i class="bi bi-shield-check me-1"></i> Mark Eradicated
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Recovery Actions -->
+            <div>
+                <h3 class="h6 text-success fw-bold mb-2">
+                    <i class="bi bi-arrow-repeat me-1"></i> Phase 3: Recovery &amp; Remediation
+                </h3>
+                <div class="d-flex flex-wrap gap-2">
+                    <form action="{{ url_for('incident.execute_action', id=incident.id) }}" method="POST" class="d-inline">
+                        <input type="hidden" name="action_type" value="verify_clean">
+                        <button type="submit" class="btn btn-sm btn-soc-success">
+                            <i class="bi bi-check2-square me-1"></i> Verify Clean Baseline
+                        </button>
+                    </form>
+                    
+                    <form action="{{ url_for('incident.execute_action', id=incident.id) }}" method="POST" class="d-inline">
+                        <input type="hidden" name="action_type" value="assign_training">
+                        <button type="submit" class="btn btn-sm btn-soc-outline">
+                            <i class="bi bi-mortarboard me-1"></i> Assign Remedial Training
+                        </button>
+                    </form>
+                    
+                    <form action="{{ url_for('incident.execute_action', id=incident.id) }}" method="POST" class="d-inline">
+                        <input type="hidden" name="action_type" value="resolve_incident">
+                        <button type="submit" class="btn btn-sm btn-soc-cyan" id="btn-resolve-incident">
+                            <i class="bi bi-check2-all me-1"></i> Mark Incident Resolved
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Right Column: Visual Incident Timeline -->
+    <div class="col-lg-5">
+        <div class="soc-card p-4">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h2 class="h6 text-white mb-0">
+                    <i class="bi bi-clock-history text-info me-2"></i> Chronological Incident Timeline
+                </h2>
+                <span class="badge badge-soc-neutral">{{ actions|length }} Milestones</span>
+            </div>
+            
+            <p class="small text-secondary mb-3">
+                Full forensic response timeline tracking containment, eradication, and SOC analyst milestones:
+            </p>
+            
+            <div style="max-height: 600px; overflow-y: auto;">
+                <div class="soc-timeline">
+                    {% for a in actions %}
+                        <div class="timeline-item {% if 'Detected' in a.action or 'Created' in a.action %}crimson{% elif 'Contain' in a.action or 'Block' in a.action %}amber{% elif 'Resolved' in a.action or 'Clean' in a.action %}emerald{% else %}blue{% endif %}">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-time font-monospace">
+                                {{ a.timestamp.strftime('%H:%M:%S UTC') if a.timestamp else '' }}
+                            </div>
+                            <div class="timeline-title text-white">
+                                {{ a.action }}
+                            </div>
+                            <div class="small text-muted mb-1 font-monospace" style="font-size: 0.72rem;">
+                                Actor: {{ a.actor }} &bull; Status: <span class="text-success">{{ a.status }}</span>
+                            </div>
+                            <div class="timeline-body small text-secondary">
+                                {{ a.notes }}
+                            </div>
+                        </div>
+                    {% else %}
+                        <p class="text-muted small">No actions registered yet.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

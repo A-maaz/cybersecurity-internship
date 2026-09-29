@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+
+{% block title %}Simulation Engine — PhishAware{% endblock %}
+
+{% block content %}
+<div class="row g-4 mb-4">
+    <div class="col-12">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+            <div>
+                <h1 class="h3 text-white mb-1">
+                    <i class="bi bi-send-exclamation text-info me-2"></i> Phishing Simulation Engine
+                </h1>
+                <p class="text-secondary small mb-0">
+                    Configure and dispatch controlled educational phishing scenarios to synthetic test mailboxes.
+                </p>
+            </div>
+            <a href="{{ url_for('main.demo_seed') }}" class="btn btn-sm btn-soc-outline">
+                <i class="bi bi-database-fill-gear text-info me-1"></i> Seed Default Demo Campaign
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Simulation Configuration Form -->
+    <div class="col-lg-5">
+        <div class="soc-card p-4">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h2 class="h6 text-white mb-0">
+                    <i class="bi bi-sliders text-info me-2"></i> Simulation Configuration
+                </h2>
+                <span class="badge badge-soc-neutral">NEW CAMPAIGN</span>
+            </div>
+            
+            <form action="{{ url_for('simulation.create_campaign') }}" method="POST">
+                <div class="mb-3">
+                    <label class="form-label text-secondary small fw-semibold">Campaign Name</label>
+                    <input type="text" name="name" class="form-control soc-input" 
+                           placeholder="e.g., Security Verification Awareness Test" 
+                           value="Security Verification Awareness Test" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label text-secondary small fw-semibold">Scenario Type</label>
+                    <select name="scenario" class="form-select soc-input">
+                        <option value="Account Verification Phishing" selected>Account Verification Phishing (Simulated IT Security)</option>
+                        <option value="Urgent Password Reset Notification">Urgent Password Reset Notification (Simulated SSO Portal)</option>
+                        <option value="IT System Upgrade Notice">IT System Upgrade &amp; Re-Auth (Simulated Infrastructure Team)</option>
+                        <option value="Payroll Compliance Update">Payroll Tax Form Review (Simulated HR / Finance)</option>
+                        <option value="Cloud Storage Quota Alert">Cloud Drive Storage Quota Exceeded (Simulated Admin)</option>
+                    </select>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label text-secondary small fw-semibold">Simulated Sender Profile</label>
+                    <input type="text" name="sender_profile" class="form-control soc-input font-monospace" 
+                           value="IT Security &lt;security@techsecure-training.local&gt;" required>
+                    <div class="form-text text-muted" style="font-size: 0.75rem;">
+                        Simulated external identity with spoofed display name.
+                    </div>
+                </div>
+                
+                <div class="row g-2 mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label text-secondary small fw-semibold">Target Department</label>
+                        <select name="department" class="form-select soc-input">
+                            <option value="Corporate All-Staff" selected>All Departments</option>
+                            <option value="Finance &amp; Accounting">Finance</option>
+                            <option value="Human Resources">Human Resources</option>
+                            <option value="Engineering &amp; DevOps">Engineering</option>
+                            <option value="Sales &amp; Marketing">Sales</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-secondary small fw-semibold">Number of Test Users</label>
+                        <input type="number" name="test_user_count" class="form-control soc-input" min="1" max="50" value="10" required>
+                    </div>
+                </div>
+                
+                <div class="p-3 rounded bg-dark border border-secondary border-opacity-50 mb-3">
+                    <div class="d-flex align-items-center gap-2 text-warning small mb-1">
+                        <i class="bi bi-shield-exclamation"></i>
+                        <span class="fw-semibold">Safety Enforcement Notice</span>
+                    </div>
+                    <p class="text-muted small mb-0" style="font-size: 0.78rem;">
+                        Emails are NOT sent to real email inboxes. Synthetic test mailboxes are created within the local simulation database for safe, controlled exploration.
+                    </p>
+                </div>
+                
+                <button type="submit" class="btn btn-soc-cyan w-100 py-2" id="btn-launch-simulation">
+                    <i class="bi bi-rocket-takeoff-fill me-2"></i> Launch Simulation
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Campaigns List -->
+    <div class="col-lg-7">
+        <div class="soc-card p-4">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h2 class="h6 text-white mb-0">
+                    <i class="bi bi-collection text-info me-2"></i> Active &amp; Historic Simulation Campaigns
+                </h2>
+                <span class="badge badge-soc-neutral">{{ campaigns|length }} Campaigns</span>
+            </div>
+            
+            {% if campaigns %}
+                <div class="table-responsive">
+                    <table class="table soc-table align-middle">
+                        <thead>
+                            <tr>
+                                <th>Campaign</th>
+                                <th>Scenario</th>
+                                <th>Recipients</th>
+                                <th>Status</th>
+                                <th class="text-end">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for c in campaigns %}
+                                <tr>
+                                    <td>
+                                        <div class="text-white fw-semibold">{{ c.name }}</div>
+                                        <div class="small text-muted font-monospace" style="font-size: 0.75rem;">ID: #{{ c.id }} &bull; {{ c.created_at.strftime('%Y-%m-%d %H:%M') if c.created_at else '' }}</div>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-soc-neutral" style="font-size: 0.75rem;">{{ c.scenario }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="text-secondary small">{{ c.test_users|length }} users</span>
+                                    </td>
+                                    <td>
+                                        {% if c.status == 'ACTIVE' %}
+                                            <span class="badge badge-soc-active">ACTIVE</span>
+                                        {% elif c.status == 'CONTAINED' %}
+                                            <span class="badge badge-soc-contained">CONTAINED</span>
+                                        {% else %}
+                                            <span class="badge badge-soc-neutral">{{ c.status }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-end">
+                                        <a href="{{ url_for('simulation.simulation_detail', id=c.id) }}" class="btn btn-sm btn-soc-outline">
+                                            Console <i class="bi bi-arrow-right"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="text-center py-5 text-muted">
+                    <i class="bi bi-inbox display-4 d-block mb-3 text-secondary"></i>
+                    <p class="mb-2">No simulation campaigns recorded yet.</p>
+                    <a href="{{ url_for('main.demo_seed') }}" class="btn btn-sm btn-soc-cyan">
+                        Load Demo Campaign &amp; Data
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+        
+        <!-- Quick Guidance Box -->
+        <div class="soc-card p-3 mt-4 border-info border-opacity-25">
+            <div class="d-flex gap-3 align-items-center">
+                <i class="bi bi-info-square-fill text-info fs-3"></i>
+                <div class="small">
+                    <div class="text-white fw-semibold">Demonstration Tip:</div>
+                    <div class="text-secondary">
+                        Clicking <strong>Console</strong> on any campaign allows you to enter the simulated employee webmail inbox, inspect red flags, simulate link clicks, or test employee phishing reporting.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

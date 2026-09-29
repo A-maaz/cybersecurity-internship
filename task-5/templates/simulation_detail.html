@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ campaign.name }} — Campaign Console{% endblock %}
+
+{% block content %}
+<div class="row g-4 mb-4">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb small">
+                <li class="breadcrumb-item"><a href="{{ url_for('simulation.simulation_list') }}" class="text-info text-decoration-none">Simulations</a></li>
+                <li class="breadcrumb-item active text-secondary" aria-current="page">Campaign #{{ campaign.id }}</li>
+            </ol>
+        </nav>
+        
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+            <div>
+                <div class="d-flex align-items-center gap-2 mb-1">
+                    <h1 class="h3 text-white mb-0">{{ campaign.name }}</h1>
+                    {% if campaign.status == 'ACTIVE' %}
+                        <span class="badge badge-soc-active">ACTIVE</span>
+                    {% elif campaign.status == 'CONTAINED' %}
+                        <span class="badge badge-soc-contained">CONTAINED</span>
+                    {% else %}
+                        <span class="badge badge-soc-neutral">{{ campaign.status }}</span>
+                    {% endif %}
+                </div>
+                <div class="text-secondary small">
+                    <span><strong>Scenario:</strong> {{ campaign.scenario }}</span> &bull; 
+                    <span><strong>Sender:</strong> <code class="text-info">{{ campaign.sender_profile }}</code></span> &bull;
+                    <span><strong>Scope:</strong> {{ test_users|length }} Synthetic Users</span>
+                </div>
+            </div>
+            
+            <div class="d-flex gap-2">
+                <form action="{{ url_for('incident.create_incident') }}" method="POST" class="d-inline">
+                    <input type="hidden" name="campaign_id" value="{{ campaign.id }}">
+                    <input type="hidden" name="title" value="Escalated Campaign Anomaly - {{ campaign.name }}">
+                    <input type="hidden" name="severity" value="Medium">
+                    <button type="submit" class="btn btn-sm btn-soc-warning">
+                        <i class="bi bi-shield-exclamation me-1"></i> Escalate to Incident Response
+                    </button>
+                </form>
+                <a href="{{ url_for('dashboard.dashboard_view') }}" class="btn btn-sm btn-soc-outline">
+                    <i class="bi bi-speedometer2 me-1"></i> View in Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Campaign KPI Metric Cards -->
+<div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+        <div class="soc-card kpi-card blue">
+            <div class="kpi-title">Emails Dispatched</div>
+            <div class="kpi-value">{{ sent_count }}</div>
+            <div class="kpi-sub">Synthetic recipients</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="soc-card kpi-card cyan">
+            <div class="kpi-title">Emails Opened</div>
+            <div class="kpi-value">{{ opened_count }}</div>
+            <div class="kpi-sub">{{ (opened_count / sent_count * 100)|round(1) if sent_count else 0 }}% Open Rate</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="soc-card kpi-card crimson">
+            <div class="kpi-title">Links Clicked</div>
+            <div class="kpi-value text-danger">{{ clicked_count }}</div>
+            <div class="kpi-sub">{{ (clicked_count / sent_count * 100)|round(1) if sent_count else 0 }}% Click Rate</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="soc-card kpi-card emerald">
+            <div class="kpi-title">Phishing Reported</div>
+            <div class="kpi-value text-success">{{ reported_count }}</div>
+            <div class="kpi-sub">{{ (reported_count / sent_count * 100)|round(1) if sent_count else 0 }}% Report Rate</div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Test User Mailboxes (Interactive Simulation View) -->
+    <div class="col-lg-7">
+        <div class="soc-card p-4">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h2 class="h6 text-white mb-0">
+                    <i class="bi bi-people text-info me-2"></i> Simulated Employee Test Mailboxes
+                </h2>
+                <span class="badge badge-soc-neutral">Click to Experience Interaction</span>
+            </div>
+            
+            <p class="small text-secondary mb-3">
+                Select any test user to view their simulated corporate webmail inbox, inspect phishing indicators, or simulate user link-click and report behaviors:
+            </p>
+            
+            <div class="table-responsive">
+                <table class="table soc-table align-middle">
+                    <thead>
+                        <tr>
+                            <th>User ID</th>
+                            <th>Department</th>
+                            <th>Current State</th>
+                            <th class="text-end">Interactive Mailbox</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for u in test_users %}
+                            {% set is_clicked = false %}
+                            {% set is_reported = false %}
+                            {% set is_opened = false %}
+                            {% for e in events %}
+                                {% if e.test_user_id == u.id %}
+                                    {% if e.event_type == 'LINK_CLICKED' %}{% set is_clicked = true %}{% endif %}
+                                    {% if e.event_type == 'PHISHING_REPORTED' %}{% set is_reported = true %}{% endif %}
+                                    {% if e.event_type == 'EMAIL_OPENED' %}{% set is_opened = true %}{% endif %}
+                                {% endif %}
+                            {% endfor %}
+                            <tr>
+                                <td>
+                                    <div class="text-white fw-semibold">{{ u.username }}</div>
+                                    <div class="small text-muted">{{ u.display_name }}</div>
+                                </td>
+                                <td>
+                                    <span class="badge badge-soc-neutral" style="font-size: 0.75rem;">{{ u.department }}</span>
+                                </td>
+                                <td>
+                                    {% if is_reported %}
+                                        <span class="badge badge-soc-active"><i class="bi bi-shield-check"></i> Reported</span>
+                                    {% elif is_clicked %}
+                                        <span class="badge badge-soc-detected"><i class="bi bi-cursor-fill"></i> Clicked Link</span>
+                                    {% elif is_opened %}
+                                        <span class="badge badge-soc-resolved"><i class="bi bi-envelope-open"></i> Opened</span>
+                                    {% else %}
+                                        <span class="badge badge-soc-neutral"><i class="bi bi-envelope"></i> Unopened</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-end">
+                                    <a href="{{ url_for('simulation.email_view', campaign_id=campaign.id, user_id=u.id) }}" 
+                                       class="btn btn-sm btn-soc-cyan" target="_blank">
+                                        <i class="bi bi-box-arrow-up-right me-1"></i> Open Webmail
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Campaign Event Stream -->
+    <div class="col-lg-5">
+        <div class="soc-card p-4">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h2 class="h6 text-white mb-0">
+                    <i class="bi bi-terminal text-info me-2"></i> Campaign Telemetry Stream
+                </h2>
+                <span class="badge badge-soc-neutral">{{ events|length }} Events</span>
+            </div>
+            
+            <div style="max-height: 480px; overflow-y: auto;">
+                {% if events %}
+                    <div class="soc-timeline">
+                        {% for e in events %}
+                            <div class="timeline-item {% if e.event_type == 'LINK_CLICKED' %}crimson{% elif e.event_type == 'PHISHING_REPORTED' %}emerald{% elif e.event_type == 'CAMPAIGN_CONTAINED' %}amber{% else %}blue{% endif %}">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-time font-monospace">{{ e.timestamp.strftime('%H:%M:%S') if e.timestamp else '' }}</div>
+                                <div class="timeline-title">
+                                    {% if e.event_type == 'EMAIL_SENT' %}
+                                        <span class="badge badge-event-sent">EMAIL_SENT</span>
+                                    {% elif e.event_type == 'EMAIL_OPENED' %}
+                                        <span class="badge badge-event-open">EMAIL_OPENED</span>
+                                    {% elif e.event_type == 'LINK_CLICKED' %}
+                                        <span class="badge badge-event-click">LINK_CLICKED</span>
+                                    {% elif e.event_type == 'PHISHING_REPORTED' %}
+                                        <span class="badge badge-event-report">PHISHING_REPORTED</span>
+                                    {% elif e.event_type == 'CAMPAIGN_CONTAINED' %}
+                                        <span class="badge badge-soc-contained">CONTAINED</span>
+                                    {% else %}
+                                        <span class="badge badge-soc-neutral">{{ e.event_type }}</span>
+                                    {% endif %}
+                                    <span class="text-white ms-1 small">{{ e.test_user.username if e.test_user else 'SYSTEM' }}</span>
+                                </div>
+                                <div class="timeline-body">{{ e.details }}</div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-muted small mb-0">No events logged yet for this campaign.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

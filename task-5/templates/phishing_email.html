@@ -1,0 +1,259 @@
+{% extends 'base.html' %}
+
+{% block title %}TechSecure Webmail — {{ campaign.scenario }}{% endblock %}
+
+{% block content %}
+<div class="row g-4 mb-3">
+    <div class="col-12">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+            <div>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb small mb-1">
+                        <li class="breadcrumb-item"><a href="{{ url_for('simulation.simulation_detail', id=campaign.id) }}" class="text-info text-decoration-none">Campaign #{{ campaign.id }}</a></li>
+                        <li class="breadcrumb-item active text-secondary" aria-current="page">Simulated Webmail</li>
+                    </ol>
+                </nav>
+                <div class="text-white fw-bold">
+                    <i class="bi bi-person-badge text-info me-1"></i> Simulated User: <span class="text-info">{{ user.display_name }}</span> (<code>{{ user.username }}@techsecure.local</code>) &bull; <span class="badge badge-soc-neutral">{{ user.department }}</span>
+                </div>
+            </div>
+            
+            <!-- Red Flag Inspector Toggle (Educational Aid) -->
+            <div class="d-flex align-items-center gap-3">
+                <div class="form-check form-switch text-secondary small">
+                    <input class="form-check-input" type="checkbox" id="inspectorToggle" onchange="toggleRedFlags()">
+                    <label class="form-check-label text-white fw-semibold" for="inspectorToggle">
+                        <i class="bi bi-search text-warning me-1"></i> Highlight Red Flags (Educational Mode)
+                    </label>
+                </div>
+                
+                <a href="{{ url_for('simulation.simulation_detail', id=campaign.id) }}" class="btn btn-sm btn-soc-outline">
+                    <i class="bi bi-arrow-left me-1"></i> Return to Console
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Webmail Client Simulation UI -->
+<div class="row g-0 webmail-container mb-4">
+    <!-- Webmail Sidebar -->
+    <div class="col-md-3 webmail-sidebar d-none d-md-block">
+        <div class="d-flex align-items-center gap-2 mb-4 text-white fw-bold">
+            <i class="bi bi-envelope-at-fill text-info fs-5"></i>
+            <span>TechSecure Webmail</span>
+        </div>
+        
+        <div class="d-grid mb-4">
+            <button class="btn btn-sm btn-soc-cyan text-start py-2" disabled>
+                <i class="bi bi-pencil-square me-2"></i> New Message
+            </button>
+        </div>
+        
+        <div class="nav flex-column gap-1">
+            <a href="#" class="webmail-folder active">
+                <span><i class="bi bi-inbox-fill me-2"></i> Inbox</span>
+                <span class="badge bg-danger rounded-pill">1</span>
+            </a>
+            <a href="#" class="webmail-folder">
+                <span><i class="bi bi-send me-2"></i> Sent Items</span>
+                <span class="text-muted">14</span>
+            </a>
+            <a href="#" class="webmail-folder">
+                <span><i class="bi bi-file-earmark me-2"></i> Drafts</span>
+                <span class="text-muted">0</span>
+            </a>
+            <a href="#" class="webmail-folder">
+                <span><i class="bi bi-archive me-2"></i> Archive</span>
+            </a>
+            <a href="#" class="webmail-folder">
+                <span><i class="bi bi-trash me-2"></i> Deleted Items</span>
+            </a>
+        </div>
+        
+        <div class="mt-4 pt-3 border-top border-secondary border-opacity-50 small text-muted">
+            <div><strong>Mailbox:</strong> {{ user.username }}</div>
+            <div><strong>Server:</strong> mail.techsecure.local</div>
+            <div class="text-success mt-1"><i class="bi bi-circle-fill" style="font-size: 0.5rem;"></i> Connected (Lab)</div>
+        </div>
+    </div>
+    
+    <!-- Email Reading Pane -->
+    <div class="col-md-9 email-reading-pane">
+        <!-- Webmail Action Toolbar -->
+        <div class="d-flex align-items-center justify-content-between pb-3 mb-3 border-bottom border-secondary border-opacity-50 flex-wrap gap-2">
+            <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-outline-secondary text-secondary" disabled>
+                    <i class="bi bi-reply-fill"></i> Reply
+                </button>
+                <button class="btn btn-sm btn-outline-secondary text-secondary" disabled>
+                    <i class="bi bi-reply-all-fill"></i> Reply All
+                </button>
+                <button class="btn btn-sm btn-outline-secondary text-secondary" disabled>
+                    <i class="bi bi-forward-fill"></i> Forward
+                </button>
+            </div>
+            
+            <!-- Employee Phishing Report Button -->
+            <form action="{{ url_for('simulation.report_phishing') }}" method="POST" class="d-inline">
+                <input type="hidden" name="campaign_id" value="{{ campaign.id }}">
+                <input type="hidden" name="user_id" value="{{ user.id }}">
+                {% if has_reported %}
+                    <button type="button" class="btn btn-sm btn-soc-success" disabled>
+                        <i class="bi bi-shield-check me-1"></i> Already Reported to SOC
+                    </button>
+                {% else %}
+                    <button type="submit" class="btn btn-sm btn-soc-success" id="btn-report-phishing" title="Simulates employee reporting this email as phishing to the SOC">
+                        <i class="bi bi-shield-exclamation me-1"></i> Report Suspicious Email (SOC)
+                    </button>
+                {% endif %}
+            </form>
+        </div>
+        
+        <!-- Status Notification If Interacted -->
+        {% if has_clicked %}
+            <div class="alert alert-danger soc-card border-danger p-2 px-3 mb-3 d-flex align-items-center justify-content-between">
+                <div class="small">
+                    <i class="bi bi-exclamation-octagon-fill text-danger me-2"></i>
+                    <strong>Simulated Link Clicked:</strong> This user clicked the verification link. The action was logged safely in the SOC event engine.
+                </div>
+                <a href="{{ url_for('awareness.awareness_view', campaign_id=campaign.id, user_id=user.id) }}" class="btn btn-sm btn-outline-light py-0">
+                    Training Module
+                </a>
+            </div>
+        {% endif %}
+        
+        {% if has_reported %}
+            <div class="alert alert-success soc-card border-success p-2 px-3 mb-3 small">
+                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                <strong>Security Vigilance Commended:</strong> This user successfully identified and reported the email to the security operations center.
+            </div>
+        {% endif %}
+        
+        <!-- Email Header Metadata Box -->
+        <div class="email-header-box">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+                <h2 class="h5 text-white fw-bold mb-0">
+                    Urgent: Account Security Verification Required
+                </h2>
+                <span class="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-50 font-monospace" style="font-size: 0.72rem;">
+                    HIGH IMPORTANCE
+                </span>
+            </div>
+            
+            <div class="small text-secondary mb-1">
+                <strong class="text-white">From:</strong> 
+                <span id="flag-sender" class="font-monospace text-light">
+                    {{ campaign.sender_profile }}
+                </span>
+                <span class="badge-inspector d-none ms-2 badge bg-danger text-white">
+                    ⚠️ Red Flag: External domain impersonating internal IT!
+                </span>
+            </div>
+            
+            <div class="small text-secondary mb-1">
+                <strong class="text-white">To:</strong> 
+                <span class="font-monospace text-info">{{ user.username }}@techsecure.local</span> ({{ user.display_name }})
+            </div>
+            
+            <div class="small text-secondary">
+                <strong class="text-white">Date:</strong> 
+                <span>Today at 09:00 AM</span> &bull; <span>Subject: <strong>Urgent: Account Security Verification Required</strong></span>
+            </div>
+        </div>
+        
+        <!-- Corporate Simulated Email Body -->
+        <div class="email-body-content">
+            <!-- Simulated Corporate Header Logo -->
+            <div class="d-flex align-items-center justify-content-between pb-3 mb-3 border-bottom">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="bi bi-shield-shaded text-primary fs-3"></i>
+                    <span class="h5 mb-0 fw-bold text-dark">TechSecure Global IT Security</span>
+                </div>
+                <span class="text-muted small">Security Operations Division</span>
+            </div>
+            
+            <p>Dear {{ user.display_name }},</p>
+            
+            <p>
+                Our automated identity defense platform detected unusual activity associated with your corporate credentials. 
+                In compliance with TechSecure Cyber Policy 8.4, all staff accounts must undergo periodic re-verification.
+            </p>
+            
+            <div class="p-3 my-3 rounded border border-warning" style="background-color: #fffbeb;">
+                <div class="d-flex align-items-center gap-2 text-danger fw-bold mb-1">
+                    <i class="bi bi-clock-history"></i>
+                    <span id="flag-urgency">ACTION REQUIRED WITHIN 24 HOURS</span>
+                    <span class="badge-inspector d-none ms-2 badge bg-danger text-white">
+                        ⚠️ Red Flag: Artificial urgency designed to induce panic!
+                    </span>
+                </div>
+                <div class="small text-dark">
+                    Failure to verify your identity before the deadline will result in immediate suspension of single sign-on (SSO) and VPN network access.
+                </div>
+            </div>
+            
+            <p>
+                Please verify your active status through our secure portal immediately by clicking the button below:
+            </p>
+            
+            <!-- Safe Phishing Link Button (Directs to safe educational landing page) -->
+            <div class="text-center my-4">
+                <a href="{{ url_for('simulation.phishing_link', campaign_id=campaign.id, user_id=user.id) }}" 
+                   class="btn btn-primary btn-lg px-4 py-2 fw-bold shadow" 
+                   id="btn-verify-account"
+                   style="background: #1d4ed8; border: none;">
+                    <i class="bi bi-box-arrow-up-right me-2"></i> Verify Account Now
+                </a>
+                
+                <div class="mt-2 font-monospace small text-muted">
+                    <span id="flag-link">Target URL: http://techsecure-auth.local/verify-token</span>
+                    <span class="badge-inspector d-none ms-2 badge bg-danger text-white">
+                        ⚠️ Red Flag: Suspicious spoofed URL destination!
+                    </span>
+                </div>
+            </div>
+            
+            <p class="small text-muted mb-0">
+                Sincerely,<br>
+                <strong>TechSecure IT Security Operations Team</strong><br>
+                Incident Prevention &amp; Identity Management Division
+            </p>
+            
+            <div class="mt-4 pt-3 border-top text-center text-muted" style="font-size: 0.72rem;">
+                This message was dispatched by TechSecure Automated Mail Gateway &bull; ID: TS-AUTH-889102-SEC
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function toggleRedFlags() {
+    const isChecked = document.getElementById('inspectorToggle').checked;
+    const badges = document.querySelectorAll('.badge-inspector');
+    const sender = document.getElementById('flag-sender');
+    const urgency = document.getElementById('flag-urgency');
+    const link = document.getElementById('flag-link');
+    
+    badges.forEach(b => {
+        if (isChecked) {
+            b.classList.remove('d-none');
+        } else {
+            b.classList.add('d-none');
+        }
+    });
+    
+    if (isChecked) {
+        if (sender) sender.classList.add('red-flag-indicator');
+        if (urgency) urgency.classList.add('red-flag-indicator');
+        if (link) link.classList.add('red-flag-indicator');
+    } else {
+        if (sender) sender.classList.remove('red-flag-indicator');
+        if (urgency) urgency.classList.remove('red-flag-indicator');
+        if (link) link.classList.remove('red-flag-indicator');
+    }
+}
+</script>
+{% endblock %}

@@ -1,0 +1,37 @@
+id,campaign_name,test_user,event_type,timestamp,source,status,details
+1,Security Verification Awareness Test,SYSTEM,CAMPAIGN_STARTED,2026-09-29 09:00:00,Simulation Engine,SUCCESS,Campaign initialized with 10 test recipients
+2,Security Verification Awareness Test,test-user-01,EMAIL_SENT,2026-09-29 09:01:00,Simulated Corporate Webmail,DELIVERED,Simulated message dispatched to test mailbox
+3,Security Verification Awareness Test,test-user-02,EMAIL_SENT,2026-09-29 09:01:05,Simulated Corporate Webmail,DELIVERED,Simulated message dispatched to test mailbox
+4,Security Verification Awareness Test,test-user-03,EMAIL_SENT,2026-09-29 09:01:10,Simulated Corporate Webmail,DELIVERED,Simulated message dispatched to test mailbox
+5,Security Verification Awareness Test,test-user-04,EMAIL_SENT,2026-09-29 09:01:15,Simulated Corporate Webmail,DELIVERED,Simulated message dispatched to test mailbox
+6,Security Verification Awareness Test,test-user-05,EMAIL_SENT,2026-09-29 09:01:20,Simulated Corporate Webmail,DELIVERED,Simulated message dispatched to test mailbox
+7,Security Verification Awareness Test,test-user-06,EMAIL_SENT,2026-09-29 09:01:25,Simulated Corporate Webmail,DELIVERED,Simulated message dispatched to test mailbox
+8,Security Verification Awareness Test,test-user-07,EMAIL_SENT,2026-09-29 09:01:30,Simulated Corporate Webmail,DELIVERED,Simulated message dispatched to test mailbox
+9,Security Verification Awareness Test,test-user-08,EMAIL_SENT,2026-09-29 09:01:35,Simulated Corporate Webmail,DELIVERED,Simulated message dispatched to test mailbox
+10,Security Verification Awareness Test,test-user-09,EMAIL_SENT,2026-09-29 09:01:40,Simulated Corporate Webmail,DELIVERED,Simulated message dispatched to test mailbox
+11,Security Verification Awareness Test,test-user-10,EMAIL_SENT,2026-09-29 09:01:45,Simulated Corporate Webmail,DELIVERED,Simulated message dispatched to test mailbox
+12,Security Verification Awareness Test,test-user-01,EMAIL_OPENED,2026-09-29 09:03:10,Simulated Corporate Webmail,LOGGED,Message opened by recipient
+13,Security Verification Awareness Test,test-user-02,EMAIL_OPENED,2026-09-29 09:03:22,Simulated Corporate Webmail,LOGGED,Message opened by recipient
+14,Security Verification Awareness Test,test-user-03,EMAIL_OPENED,2026-09-29 09:03:45,Simulated Corporate Webmail,LOGGED,Message opened by recipient
+15,Security Verification Awareness Test,test-user-01,LINK_CLICKED,2026-09-29 09:04:12,Awareness Gateway,ALERT,Simulated verification link clicked; redirected to training
+16,Security Verification Awareness Test,test-user-04,EMAIL_OPENED,2026-09-29 09:04:30,Simulated Corporate Webmail,LOGGED,Message opened by recipient
+17,Security Verification Awareness Test,test-user-04,LINK_CLICKED,2026-09-29 09:04:55,Awareness Gateway,ALERT,Simulated verification link clicked; redirected to training
+18,Security Verification Awareness Test,test-user-02,PHISHING_REPORTED,2026-09-29 09:05:15,Simulated Report Add-in,SUCCESS,User identified and reported suspicious email
+19,Security Verification Awareness Test,test-user-05,EMAIL_OPENED,2026-09-29 09:05:40,Simulated Corporate Webmail,LOGGED,Message opened by recipient
+20,Security Verification Awareness Test,test-user-06,EMAIL_OPENED,2026-09-29 09:05:50,Simulated Corporate Webmail,LOGGED,Message opened by recipient
+21,Security Verification Awareness Test,test-user-05,PHISHING_REPORTED,2026-09-29 09:06:05,Simulated Report Add-in,SUCCESS,User identified and reported suspicious email
+22,Security Verification Awareness Test,SYSTEM,INCIDENT_CREATED,2026-09-29 09:06:30,SOC Detection Engine,FLAGGED,Incident INC-001 created due to multi-user interaction
+23,Security Verification Awareness Test,test-user-07,EMAIL_OPENED,2026-09-29 09:07:00,Simulated Corporate Webmail,LOGGED,Message opened by recipient
+24,Security Verification Awareness Test,test-user-07,LINK_CLICKED,2026-09-29 09:07:20,Awareness Gateway,ALERT,Simulated verification link clicked; redirected to training
+25,Security Verification Awareness Test,test-user-08,EMAIL_OPENED,2026-09-29 09:07:35,Simulated Corporate Webmail,LOGGED,Message opened by recipient
+26,Security Verification Awareness Test,test-user-08,LINK_CLICKED,2026-09-29 09:07:50,Awareness Gateway,ALERT,Simulated verification link clicked; redirected to training
+27,Security Verification Awareness Test,test-user-03,PHISHING_REPORTED,2026-09-29 09:08:10,Simulated Report Add-in,SUCCESS,User identified and reported suspicious email
+28,Security Verification Awareness Test,SYSTEM,CAMPAIGN_CONTAINED,2026-09-29 09:08:45,SOC Incident Response,CONTAINED,Simulation link deactivated and sender blocked
+29,Security Verification Awareness Test,test-user-06,PHISHING_REPORTED,2026-09-29 09:09:15,Simulated Report Add-in,SUCCESS,User identified and reported suspicious email
+30,Security Verification Awareness Test,test-user-09,PHISHING_REPORTED,2026-09-29 09:09:30,Simulated Report Add-in,SUCCESS,User identified and reported suspicious email
+31,Security Verification Awareness Test,test-user-10,PHISHING_REPORTED,2026-09-29 09:09:50,Simulated Report Add-in,SUCCESS,User identified and reported suspicious email
+32,Security Verification Awareness Test,test-user-01,TRAINING_PAGE_VIEWED,2026-09-29 09:10:00,Security Awareness Portal,COMPLETED,Employee reviewed awareness indicators
+33,Security Verification Awareness Test,test-user-04,TRAINING_PAGE_VIEWED,2026-09-29 09:10:30,Security Awareness Portal,COMPLETED,Employee reviewed awareness indicators
+34,Security Verification Awareness Test,test-user-07,TRAINING_PAGE_VIEWED,2026-09-29 09:11:10,Security Awareness Portal,COMPLETED,Employee reviewed awareness indicators
+35,Security Verification Awareness Test,test-user-08,TRAINING_PAGE_VIEWED,2026-09-29 09:11:45,Security Awareness Portal,COMPLETED,Employee reviewed awareness indicators
+36,Security Verification Awareness Test,SYSTEM,INCIDENT_RESOLVED,2026-09-29 09:15:00,SOC Incident Response,RESOLVED,Remediation completed; metrics reviewed

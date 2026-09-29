@@ -1,0 +1,220 @@
+{% extends 'base.html' %}
+
+{% block title %}Incident Report — {{ incident.incident_number }}{% endblock %}
+
+{% block extra_head %}
+<style>
+@media print {
+    .soc-navbar, .soc-footer, #printBtn, #backBtn {
+        display: none !important;
+    }
+    body {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+    }
+    .soc-card {
+        background-color: #ffffff !important;
+        border: 1px solid #cccccc !important;
+        color: #000000 !important;
+        box-shadow: none !important;
+    }
+    .text-white, .text-info, .text-secondary {
+        color: #000000 !important;
+    }
+    .badge {
+        border: 1px solid #000000 !important;
+        color: #000000 !important;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mb-4">
+    <div class="col-lg-10">
+        <!-- Print / Export Bar -->
+        <div class="d-flex align-items-center justify-content-between mb-3">
+            <a href="{{ url_for('incident.incident_detail', id=incident.id) }}" class="btn btn-sm btn-soc-outline" id="backBtn">
+                <i class="bi bi-arrow-left me-1"></i> Return to Workbench
+            </a>
+            <button onclick="window.print()" class="btn btn-sm btn-soc-cyan" id="printBtn">
+                <i class="bi bi-printer-fill me-1"></i> Print / Save as PDF
+            </button>
+        </div>
+        
+        <!-- Formal Incident Report Card -->
+        <div class="soc-card p-4 p-md-5 border-secondary">
+            <!-- Report Header -->
+            <div class="d-flex justify-content-between align-items-start border-bottom border-secondary border-opacity-50 pb-4 mb-4">
+                <div>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <i class="bi bi-shield-lock-fill text-info fs-3"></i>
+                        <span class="h4 mb-0 fw-bold text-white">PhishAware Incident Response Report</span>
+                    </div>
+                    <div class="text-secondary small font-monospace">
+                        REPORT ID: SEC-IR-{{ incident.incident_number }} &bull; CLASSIFICATION: CONTROLLED EDUCATIONAL AUDIT
+                    </div>
+                </div>
+                <div class="text-end">
+                    <span class="badge badge-soc-resolved fs-6 px-3 py-2 font-monospace">{{ incident.status|upper }}</span>
+                    <div class="small text-muted mt-1">Generated: {{ incident.created_at.strftime('%Y-%m-%d') if incident.created_at else '' }}</div>
+                </div>
+            </div>
+            
+            <!-- Section 1: Executive Summary -->
+            <div class="mb-4">
+                <h2 class="h5 text-info fw-bold mb-2">1. Executive Summary</h2>
+                <p class="text-secondary small leading-relaxed">
+                    On {{ incident.created_at.strftime('%Y-%m-%d at %H:%M UTC') if incident.created_at else 'the recorded date' }}, the PhishAware Security Operations Center (SOC) detected simulated anomalous interactions involving educational campaign <strong>{{ incident.campaign.name if incident.campaign else incident.title }}</strong>. The incident was classified under <strong>{{ incident.category }}</strong> with a severity rating of <strong>{{ incident.severity }}</strong>. In accordance with standard cybersecurity incident response playbooks, containment procedures were executed, malicious simulation URLs were quarantined, and remedial training was designated. Zero actual credentials or sensitive data were compromised during this controlled exercise.
+                </p>
+            </div>
+            
+            <!-- Metadata Matrix Table -->
+            <div class="table-responsive mb-4">
+                <table class="table soc-table table-bordered small">
+                    <tbody>
+                        <tr>
+                            <th style="width: 25%;">Incident Number</th>
+                            <td class="font-monospace text-info">{{ incident.incident_number }}</td>
+                            <th style="width: 25%;">Severity Rating</th>
+                            <td><span class="badge bg-warning bg-opacity-25 text-warning">{{ incident.severity }}</span></td>
+                        </tr>
+                        <tr>
+                            <th>Attack Vector</th>
+                            <td>Social Engineering / Email Phishing</td>
+                            <th>Lifecycle Phase</th>
+                            <td><span class="badge badge-soc-active">{{ incident.status }}</span></td>
+                        </tr>
+                        <tr>
+                            <th>Targeted Scope</th>
+                            <td>Synthetic Employees (Local Lab Sandbox)</td>
+                            <th>Data Impact</th>
+                            <td class="text-success fw-bold">Zero Credential Loss (Educational Scope)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Section 2: Detection & Attack Vector -->
+            <div class="mb-4">
+                <h2 class="h5 text-info fw-bold mb-2">2. Detection &amp; Threat Vector Analysis</h2>
+                <p class="text-secondary small mb-2">
+                    <strong>Detection Rule Trigger:</strong> <code>PHISH-SIM-RULE-104 (Interaction Threshold Anomaly)</code>
+                </p>
+                <div class="p-3 rounded bg-dark border border-secondary border-opacity-50 small text-secondary mb-2">
+                    {{ incident.detection_indicators }}
+                </div>
+                <p class="text-secondary small">
+                    The threat vector was a simulated corporate webmail message masquerading as internal IT security, demanding urgent account re-verification under threat of account suspension.
+                </p>
+            </div>
+            
+            <!-- Section 3: Evidence & Forensic Milestones -->
+            <div class="mb-4">
+                <h2 class="h5 text-info fw-bold mb-2">3. Forensic Telemetry &amp; Response Milestones</h2>
+                <div class="table-responsive">
+                    <table class="table soc-table small">
+                        <thead>
+                            <tr>
+                                <th>Timestamp (UTC)</th>
+                                <th>Milestone Action</th>
+                                <th>Actor</th>
+                                <th>Execution Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for a in actions %}
+                                <tr>
+                                    <td class="font-monospace text-muted">{{ a.timestamp.strftime('%H:%M:%S') if a.timestamp else '' }}</td>
+                                    <td class="text-white fw-semibold">{{ a.action }}</td>
+                                    <td class="text-info">{{ a.actor }}</td>
+                                    <td class="text-secondary">{{ a.notes }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Section 4: Containment, Eradication & Recovery Details -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-4">
+                    <div class="p-3 rounded bg-dark border border-warning border-opacity-50 h-100">
+                        <h3 class="h6 text-warning fw-bold mb-2"><i class="bi bi-slash-circle me-1"></i> Containment</h3>
+                        <p class="small text-secondary mb-0">
+                            {{ incident.containment_notes or 'Simulated campaign disabled, sender domain quarantined in mail transport rules, and user advisory notice broadcasted.' }}
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-3 rounded bg-dark border border-danger border-opacity-50 h-100">
+                        <h3 class="h6 text-danger fw-bold mb-2"><i class="bi bi-trash3 me-1"></i> Eradication</h3>
+                        <p class="small text-secondary mb-0">
+                            {{ incident.eradication_notes or 'Simulation link redirected to safe educational landing page. Audit logs preserved and cryptographic hashes recorded.' }}
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-3 rounded bg-dark border border-success border-opacity-50 h-100">
+                        <h3 class="h6 text-success fw-bold mb-2"><i class="bi bi-arrow-repeat me-1"></i> Recovery</h3>
+                        <p class="small text-secondary mb-0">
+                            {{ incident.recovery_notes or 'Clean environment state verified. Interactive phishing awareness training curriculum assigned to clicking users.' }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 5: Lessons Learned -->
+            <div class="mb-4">
+                <h2 class="h5 text-info fw-bold mb-2">5. Lessons Learned</h2>
+                <div class="p-3 rounded bg-dark border border-secondary small text-secondary">
+                    <ul class="mb-0 d-flex flex-column gap-2">
+                        <li><strong>Rapid Employee Reporting is Crucial:</strong> Users who reported the email enabled incident responders to initiate containment within minutes of campaign deployment.</li>
+                        <li><strong>Need for Display Name &amp; Domain Verification:</strong> Clicking users failed to inspect the sender domain, focusing solely on the "IT Security" display label.</li>
+                        <li><strong>Artificial Urgency Remains Highly Effective:</strong> Coercive deadlines induced anxiety, leading individuals to bypass standard verification protocols.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Section 6: Strategic Recommendations -->
+            <div class="mb-4">
+                <h2 class="h5 text-info fw-bold mb-2">6. Strategic Recommendations &amp; Mitigations</h2>
+                <div class="row g-2 small text-secondary">
+                    <div class="col-md-6">
+                        <div class="p-2 rounded bg-dark border border-secondary border-opacity-50">
+                            <strong class="text-white"><i class="bi bi-shield-check text-info me-1"></i> Mandatory MFA:</strong> Enforce FIDO2 / hardware token authentication to neutralize credential theft attempts.
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-2 rounded bg-dark border border-secondary border-opacity-50">
+                            <strong class="text-white"><i class="bi bi-shield-check text-info me-1"></i> Email Authentication:</strong> Implement rigorous SPF, DKIM, and DMARC (p=reject) controls to stop spoofing.
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-2 rounded bg-dark border border-secondary border-opacity-50">
+                            <strong class="text-white"><i class="bi bi-shield-check text-info me-1"></i> One-Click Reporting:</strong> Provide an integrated webmail button for immediate SOC escalation.
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-2 rounded bg-dark border border-secondary border-opacity-50">
+                            <strong class="text-white"><i class="bi bi-shield-check text-info me-1"></i> Continuous Simulation:</strong> Conduct monthly randomized phishing drills to build behavioral immunity.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sign-off Block -->
+            <div class="pt-4 border-top border-secondary border-opacity-50 d-flex justify-content-between align-items-center flex-wrap gap-2 text-muted small">
+                <div>
+                    <strong>Incident Commander:</strong> SOC Lead (Simulation Engine)<br>
+                    <strong>Lead Investigator:</strong> Cybersecurity Intern / Analyst
+                </div>
+                <div class="text-end font-monospace">
+                    STATUS: FORMALLY AUDITED &amp; ARCHIVED<br>
+                    SECURITY CLEARANCE: PUBLIC / EDUCATIONAL
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,470 @@
+/* 
+   PhishAware — Modern Cybersecurity / SOC Theme
+   Palette: Deep Midnight Navy, Slate Card Panels, Cyan & Electric Blue Accents, Emerald, Amber, Crimson
+*/
+
+:root {
+  --bg-primary: #0a0e17;
+  --bg-secondary: #0f172a;
+  --bg-card: #131c2e;
+  --bg-card-hover: #17243c;
+  --border-color: #1e293b;
+  --border-focus: #00d2ff;
+  
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  
+  --accent-cyan: #00d2ff;
+  --accent-cyan-glow: rgba(0, 210, 255, 0.25);
+  --accent-blue: #3b82f6;
+  --accent-emerald: #10b981;
+  --accent-emerald-glow: rgba(16, 185, 129, 0.25);
+  --accent-amber: #f59e0b;
+  --accent-amber-glow: rgba(245, 158, 11, 0.25);
+  --accent-crimson: #ef4444;
+  --accent-crimson-glow: rgba(239, 68, 68, 0.25);
+  --accent-purple: #8b5cf6;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+/* Background Subtle Grid Pattern */
+.bg-grid {
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Navigation Bar */
+.soc-navbar {
+  background-color: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-color);
+  padding: 0.75rem 1.5rem;
+}
+
+.soc-brand {
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: -0.5px;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+
+.soc-brand .brand-badge {
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.soc-nav-link {
+  color: var(--text-secondary) !important;
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 0.5rem 0.85rem !important;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.soc-nav-link:hover, .soc-nav-link.active {
+  color: var(--accent-cyan) !important;
+  background-color: rgba(0, 210, 255, 0.08);
+}
+
+/* Cards & Panels */
+.soc-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.soc-card:hover {
+  border-color: rgba(0, 210, 255, 0.3);
+}
+
+.soc-card-header {
+  background-color: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid var(--border-color);
+  padding: 1rem 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Metric KPI Cards */
+.kpi-card {
+  padding: 1.25rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.kpi-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+}
+
+.kpi-card.cyan::before { background-color: var(--accent-cyan); }
+.kpi-card.blue::before { background-color: var(--accent-blue); }
+.kpi-card.emerald::before { background-color: var(--accent-emerald); }
+.kpi-card.amber::before { background-color: var(--accent-amber); }
+.kpi-card.crimson::before { background-color: var(--accent-crimson); }
+.kpi-card.purple::before { background-color: var(--accent-purple); }
+
+.kpi-title {
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-muted);
+  margin-bottom: 0.35rem;
+}
+
+.kpi-value {
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.1;
+}
+
+.kpi-sub {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-top: 0.35rem;
+}
+
+/* Status Badges */
+.badge-soc-active {
+  background-color: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+.badge-soc-contained {
+  background-color: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+
+.badge-soc-resolved {
+  background-color: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.4);
+}
+
+.badge-soc-detected {
+  background-color: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+.badge-soc-neutral {
+  background-color: rgba(148, 163, 184, 0.12);
+  color: #cbd5e1;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+/* Event Types Badges */
+.badge-event-sent { background: #1e293b; color: #94a3b8; }
+.badge-event-open { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+.badge-event-click { background: rgba(239, 68, 68, 0.25); color: #f87171; font-weight: 600; }
+.badge-event-report { background: rgba(16, 185, 129, 0.2); color: #34d399; font-weight: 600; }
+.badge-event-incident { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+.badge-event-train { background: rgba(139, 92, 246, 0.2); color: #a78bfa; }
+
+/* Buttons */
+.btn-soc-cyan {
+  background: linear-gradient(135deg, #00d2ff, #0099ff);
+  color: #05101e;
+  font-weight: 600;
+  border: none;
+  box-shadow: 0 2px 10px var(--accent-cyan-glow);
+  transition: all 0.2s ease;
+}
+
+.btn-soc-cyan:hover {
+  background: linear-gradient(135deg, #26dcff, #1aa3ff);
+  color: #030a14;
+  box-shadow: 0 4px 16px rgba(0, 210, 255, 0.4);
+  transform: translateY(-1px);
+}
+
+.btn-soc-outline {
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  background: transparent;
+  transition: all 0.2s ease;
+}
+
+.btn-soc-outline:hover {
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+  background: rgba(0, 210, 255, 0.05);
+}
+
+.btn-soc-danger {
+  background-color: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #f87171;
+  font-weight: 600;
+}
+
+.btn-soc-danger:hover {
+  background-color: #ef4444;
+  color: #ffffff;
+}
+
+.btn-soc-success {
+  background-color: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: #34d399;
+  font-weight: 600;
+}
+
+.btn-soc-success:hover {
+  background-color: #10b981;
+  color: #ffffff;
+}
+
+.btn-soc-warning {
+  background-color: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  color: #fbbf24;
+  font-weight: 600;
+}
+
+.btn-soc-warning:hover {
+  background-color: #f59e0b;
+  color: #0a0e17;
+}
+
+/* Forms & Inputs */
+.soc-input {
+  background-color: #0a0e17 !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-primary) !important;
+  border-radius: 6px;
+}
+
+.soc-input:focus {
+  border-color: var(--accent-cyan) !important;
+  box-shadow: 0 0 0 3px var(--accent-cyan-glow) !important;
+}
+
+.soc-input::placeholder {
+  color: var(--text-muted) !important;
+}
+
+/* Tables */
+.soc-table {
+  color: var(--text-primary);
+  margin-bottom: 0;
+  border-color: var(--border-color);
+}
+
+.soc-table th {
+  background-color: rgba(15, 23, 42, 0.6);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--border-color);
+  padding: 0.75rem 1rem;
+}
+
+.soc-table td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+  vertical-align: middle;
+  font-size: 0.9rem;
+}
+
+.soc-table tr:hover td {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+/* Lifecycle Pipeline Flow */
+.lifecycle-flow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.lifecycle-step {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 0.6rem 0.9rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all 0.2s ease;
+}
+
+.lifecycle-step:hover {
+  border-color: var(--accent-cyan);
+  color: var(--text-primary);
+  transform: translateY(-2px);
+}
+
+.lifecycle-arrow {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* Timeline Components */
+.soc-timeline {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.soc-timeline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0.75rem;
+  width: 2px;
+  background-color: var(--border-color);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -2rem;
+  top: 0.25rem;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: var(--bg-card);
+  border: 3px solid var(--accent-cyan);
+}
+
+.timeline-item.crimson .timeline-dot { border-color: var(--accent-crimson); }
+.timeline-item.amber .timeline-dot { border-color: var(--accent-amber); }
+.timeline-item.emerald .timeline-dot { border-color: var(--accent-emerald); }
+.timeline-item.blue .timeline-dot { border-color: var(--accent-blue); }
+
+.timeline-time {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent-cyan);
+}
+
+.timeline-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.2rem;
+}
+
+.timeline-body {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+/* Simulated Email Client Styles */
+.webmail-container {
+  background-color: #0b1120;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.webmail-sidebar {
+  background-color: #070b14;
+  border-right: 1px solid var(--border-color);
+  padding: 1.25rem;
+}
+
+.webmail-folder {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0.8rem;
+  border-radius: 6px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  text-decoration: none;
+  margin-bottom: 0.25rem;
+}
+
+.webmail-folder.active {
+  background-color: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+  font-weight: 600;
+}
+
+.webmail-folder:hover {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.email-reading-pane {
+  background-color: #0d1527;
+  padding: 1.75rem;
+}
+
+.email-header-box {
+  background-color: rgba(15, 23, 42, 0.8);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.email-body-content {
+  background-color: #ffffff;
+  color: #1e293b;
+  border-radius: 8px;
+  padding: 2.25rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.red-flag-indicator {
+  position: relative;
+  background-color: rgba(239, 68, 68, 0.15);
+  border-bottom: 2px dashed #ef4444;
+  cursor: help;
+  padding: 0 4px;
+  border-radius: 2px;
+}
+
+/* Footer */
+.soc-footer {
+  margin-top: auto;
+  background-color: #060911;
+  border-top: 1px solid var(--border-color);
+  padding: 1.5rem 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}

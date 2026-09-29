@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+
+{% block title %}Incident Response Center — PhishAware{% endblock %}
+
+{% block content %}
+<div class="row g-4 mb-4">
+    <div class="col-12">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+            <div>
+                <h1 class="h3 text-white mb-1">
+                    <i class="bi bi-shield-exclamation text-warning me-2"></i> Security Incident Response Center
+                </h1>
+                <p class="text-secondary small mb-0">
+                    Simulated cybersecurity incident management: Detection, Analysis, Containment, Eradication, Recovery, and Post-Incident Reporting.
+                </p>
+            </div>
+            
+            <button type="button" class="btn btn-sm btn-soc-warning" data-bs-toggle="modal" data-bs-target="#createIncidentModal">
+                <i class="bi bi-plus-circle me-1"></i> Register New Incident
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Incident Summary Stats -->
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="soc-card kpi-card amber">
+            <div class="kpi-title">Active Simulated Incidents</div>
+            <div class="kpi-value text-warning">{{ active_count }}</div>
+            <div class="kpi-sub">Requiring containment &amp; eradication</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="soc-card kpi-card blue">
+            <div class="kpi-title">Resolved Incidents</div>
+            <div class="kpi-value text-info">{{ resolved_count }}</div>
+            <div class="kpi-sub">With lessons learned completed</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="soc-card kpi-card cyan">
+            <div class="kpi-title">Total Incidents Logged</div>
+            <div class="kpi-value">{{ incidents|length }}</div>
+            <div class="kpi-sub">Simulation lifecycle records</div>
+        </div>
+    </div>
+</div>
+
+<!-- Incidents Table -->
+<div class="row g-4 mb-4">
+    <div class="col-12">
+        <div class="soc-card p-4">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h2 class="h6 text-white mb-0">
+                    <i class="bi bi-journal-text text-info me-2"></i> Incident Case Ledger
+                </h2>
+                <span class="badge badge-soc-neutral">{{ incidents|length }} Cases</span>
+            </div>
+            
+            {% if incidents %}
+                <div class="table-responsive">
+                    <table class="table soc-table align-middle">
+                        <thead>
+                            <tr>
+                                <th>Incident ID</th>
+                                <th>Title &amp; Category</th>
+                                <th>Severity</th>
+                                <th>Lifecycle Status</th>
+                                <th>Actions Taken</th>
+                                <th>Registered (UTC)</th>
+                                <th class="text-end">Manage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for inc in incidents %}
+                                <tr>
+                                    <td>
+                                        <span class="font-monospace text-info fw-bold">{{ inc.incident_number }}</span>
+                                    </td>
+                                    <td>
+                                        <div class="text-white fw-semibold">{{ inc.title }}</div>
+                                        <div class="small text-muted">{{ inc.category }}</div>
+                                    </td>
+                                    <td>
+                                        {% if inc.severity == 'Critical' %}
+                                            <span class="badge bg-danger text-white">Critical</span>
+                                        {% elif inc.severity == 'High' %}
+                                            <span class="badge bg-danger bg-opacity-75 text-white">High</span>
+                                        {% elif inc.severity == 'Medium' %}
+                                            <span class="badge bg-warning bg-opacity-25 text-warning border border-warning border-opacity-50">Medium</span>
+                                        {% else %}
+                                            <span class="badge badge-soc-neutral">Low</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if inc.status == 'Resolved' %}
+                                            <span class="badge badge-soc-resolved"><i class="bi bi-check2-all"></i> Resolved</span>
+                                        {% elif inc.status == 'Contained' %}
+                                            <span class="badge badge-soc-contained"><i class="bi bi-slash-circle"></i> Contained</span>
+                                        {% elif inc.status == 'Eradicated' %}
+                                            <span class="badge badge-soc-active"><i class="bi bi-trash3"></i> Eradicated</span>
+                                        {% elif inc.status == 'Recovered' %}
+                                            <span class="badge badge-soc-resolved"><i class="bi bi-arrow-repeat"></i> Recovered</span>
+                                        {% else %}
+                                            <span class="badge badge-soc-detected"><i class="bi bi-exclamation-triangle"></i> {{ inc.status }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-soc-neutral">{{ inc.actions|length }} Actions</span>
+                                    </td>
+                                    <td class="small text-muted font-monospace">
+                                        {{ inc.created_at.strftime('%Y-%m-%d %H:%M') if inc.created_at else '' }}
+                                    </td>
+                                    <td class="text-end">
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="{{ url_for('incident.incident_detail', id=inc.id) }}" class="btn btn-soc-outline">
+                                                Lifecycle Workbench <i class="bi bi-arrow-right"></i>
+                                            </a>
+                                            <a href="{{ url_for('incident.incident_report', id=inc.id) }}" class="btn btn-soc-cyan" title="Formal Report">
+                                                <i class="bi bi-file-earmark-text"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="text-center py-5 text-muted">
+                    <i class="bi bi-shield-slash display-4 d-block mb-3 text-secondary"></i>
+                    <p class="mb-2">No incidents recorded yet.</p>
+                    <a href="{{ url_for('main.demo_seed') }}" class="btn btn-sm btn-soc-cyan">
+                        Seed Demo Incident INC-001
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Register Incident -->
+<div class="modal fade" id="createIncidentModal" tabindex="-1" aria-labelledby="createIncidentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content soc-card">
+            <div class="modal-header soc-card-header">
+                <h5 class="modal-title text-white h6" id="createIncidentModalLabel">
+                    <i class="bi bi-shield-plus text-warning me-2"></i> Register Simulated Incident
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ url_for('incident.create_incident') }}" method="POST">
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label class="form-label text-secondary small fw-semibold">Incident Title</label>
+                        <input type="text" name="title" class="form-control soc-input" 
+                               value="Simulated Phishing Campaign - Abnormal Click Spike" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label text-secondary small fw-semibold">Severity Rating</label>
+                        <select name="severity" class="form-select soc-input">
+                            <option value="Low">Low (Informational / Single interaction)</option>
+                            <option value="Medium" selected>Medium (Multiple users clicked simulated link)</option>
+                            <option value="High">High (Targeted department or high click rate)</option>
+                            <option value="Critical">Critical (Executive target simulation)</option>
+                        </select>
+                    </div>
+                    
+                    <p class="small text-muted mb-0">
+                        This registers an incident ticket within the SOC workbench, allowing you to walk through Detection, Containment, Eradication, and Recovery.
+                    </p>
+                </div>
+                <div class="modal-footer border-secondary border-opacity-50">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-sm btn-soc-warning">Register Incident</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
