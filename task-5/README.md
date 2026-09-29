@@ -647,27 +647,51 @@ Screenshots demonstrating the project can be added below.
 
 ### Homepage
 
-![Homepage](screenshots/homepage.png)
+<div align="center">
+
+<img src="screenshots/1.png" width="100%" alt="Task 3 Web Application Security Banner">
+
+</div>
 
 ### Simulated Phishing Email
 
-![Phishing Email](screenshots/phishing-email.png)
+<div align="center">
+
+<img src="screenshots/2.png" width="100%" alt="Task 3 Web Application Security Banner">
+
+</div>
 
 ### Awareness Page
 
-![Awareness Page](screenshots/awareness-page.png)
+<div align="center">
+
+<img src="screenshots/3.png" width="100%" alt="Task 3 Web Application Security Banner">
+
+</div>
 
 ### Security Dashboard
 
-![Dashboard](screenshots/dashboard.png)
+<div align="center">
+
+<img src="screenshots/4.png" width="100%" alt="Task 3 Web Application Security Banner">
+
+</div>
 
 ### Incident Response
 
-![Incident Response](screenshots/incident-response.png)
+<div align="center">
+
+<img src="screenshots/5.png" width="100%" alt="Task 3 Web Application Security Banner">
+
+</div>
 
 ### Incident Timeline
 
-![Incident Timeline](screenshots/incident-timeline.png)
+<div align="center">
+
+<img src="screenshots/6.png" width="100%" alt="Task 3 Web Application Security Banner">
+
+</div>
 
 > Replace the image paths above with the actual screenshots from the project.
 
